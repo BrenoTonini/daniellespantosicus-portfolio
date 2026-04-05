@@ -1,0 +1,35 @@
+---
+import { languages } from '../i18n/ui';
+import { getLangFromUrl, getPathForLang } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const url = Astro.url;
+
+const options = Object.entries(languages).map(([code, label]) => ({
+    code,
+    label,
+    href: getPathForLang(url, code as keyof typeof languages),
+    current: code === lang,
+}));
+---
+
+<div class="relative">
+    <select
+        id="language-select"
+        aria-label="Select language"
+        class="appearance-none bg-transparent text-sm border border-current rounded px-2 py-1 pr-6 cursor-pointer focus:outline-none focus:ring-2 focus:ring-current"
+    >
+        {options.map(({ code, label, href, current }) => (
+            <option value={href} selected={current}>{label}</option>
+        ))}
+    </select>
+    <!-- chevron decorativo -->
+    <span class="pointer-events-none absolute right-1.5 top-1/2 -translate-y-1/2 text-xs">▾</span>
+</div>
+
+<script>
+    const select = document.getElementById('language-select') as HTMLSelectElement;
+    select?.addEventListener('change', () => {
+        window.location.href = select.value;
+    });
+</script>

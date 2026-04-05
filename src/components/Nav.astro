@@ -1,0 +1,47 @@
+---
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatedPath = useTranslatedPath(lang);
+
+const pathname = Astro.url.pathname;
+const homePath = translatedPath('/');
+const aboutPath = translatedPath('/about');
+
+const isHomeActive = pathname === homePath || pathname === `${homePath}/`;
+const isAboutActive = pathname === aboutPath || pathname === `${aboutPath}/`;
+
+const linkBase = [
+    'relative flex h-full items-start px-3 pt-4 pb-3 text-sm font-medium no-underline transition-colors',
+    'after:absolute after:bottom-0 after:left-0 after:h-1 after:w-full after:transition-colors',
+];
+---
+
+<nav class="flex h-full items-stretch gap-1">
+    <a 
+        href={homePath}
+        class:list={[
+            ...linkBase,
+            '!text-(--black)',
+            isHomeActive
+                ? 'after:bg-(--accent)'
+                : 'after:bg-transparent hover:after:bg-(--black)/40'
+        ]}
+    >
+        {t('nav.home')}
+    </a>
+
+    <a 
+        href={aboutPath}
+        class:list={[
+            ...linkBase,
+            '!text-(--black)',
+            isAboutActive
+                ? 'after:bg-(--accent)'
+                : 'after:bg-transparent hover:after:bg-(--black)/40'
+        ]}
+    >
+        {t('nav.about')}
+    </a>
+</nav>

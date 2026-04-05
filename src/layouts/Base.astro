@@ -1,0 +1,20 @@
+---
+import LanguagePicker from '../components/LanguagePicker.astro';
+import { getLangFromUrl } from '../i18n/utils';
+import BaseHead from '../components/BaseHead.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const { title, description } = Astro.props;
+---
+
+<html lang={lang}>
+    <head>
+        <BaseHead title={title} description={description} />
+    </head>
+    <body>
+        <slot />
+        <footer>
+            <languagePicker />
+        </footer>
+    </body>
+</html>
