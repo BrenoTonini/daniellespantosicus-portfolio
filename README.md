@@ -1,62 +1,36 @@
-# Astro Starter Kit: Blog
+# Portfolio Danielle Spantosicus
 
-```sh
-npm create astro@latest -- --template blog
-```
+Site oficial de portfólio e comissões da artista digital [Danielle Spantosicus](https://vgen.co/Spantosicus_).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Sobre
 
-Features:
+Projeto desenvolvido para apresentar o trabalho e os serviços de comissão da artista.
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+### Páginas
 
-## 🚀 Project Structure
+**Home**: Ilustrações selecionadas, serviços de comissão, processo de trabalho, avaliações de clientes, FAQ e link para solicitação via VGen.
 
-Inside of your Astro project, you'll see the following folders and files:
+**About**: Em construção.
 
-```text
-├── public/
-├── src/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
-```
+**Portfolio**: Em construção.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Internacionalização
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+O projeto foi desenvolvido com suporte a múltiplos idiomas desde o início. Idiomas disponíveis atualmente:
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+- `pt-BR` — Português (Brasil)
+- `en-US` — English (United States)
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Stack
 
-## 🧞 Commands
+- Astro 6
+- Tailwind CSS 4 (via `@tailwindcss/vite`)
+- TypeScript
+- `@astrojs/sitemap`
+- `@astrojs/mdx`
 
-All commands are run from the root of the project, from a terminal:
+## Licença e uso
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+O código-fonte deste repositório é disponibilizado apenas para fins não comerciais.
 
-## 👀 Want to learn more?
-
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
-
-## Credit
-
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+As imagens e demais ativos visuais presentes em `/assets` são de autoria exclusiva de [Danielle Spantosicus](https://vgen.co/Spantosicus_). Nenhum uso, reprodução ou redistribuição desses arquivos é permitido sem autorização expressa da artista.
