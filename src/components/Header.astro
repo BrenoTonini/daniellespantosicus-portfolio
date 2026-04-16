@@ -3,66 +3,107 @@ import { Image } from 'astro:assets';
 import { getLangFromUrl, useTranslatedPath } from '../i18n/utils';
 import Nav from './Nav.astro';
 import LanguagePicker from './LanguagePicker.astro';
-import InstagramLogo from '../assets/instagram-logo-outline.svg';
-import XLogo from '../assets/x-logo-outline.svg';
-import VGenLogo from '../assets/vgen-logo-outline.svg';
-import Assinatura from '../assets/assinatura-danielle-spantosicus-preta.png';
+import InstagramLogo from '../assets/icons/instagram-logo-outline.svg';
+import XLogo from '../assets/icons/x-logo-outline.svg';
+import VGenLogo from '../assets/icons/vgen-logo-outline.svg';
+import Assinatura from '../assets/assinatura-danielle-spantosicus-branca.png';
 
 const lang = getLangFromUrl(Astro.url);
 const translatedPath = useTranslatedPath(lang);
 ---
 
-<header class="sticky top-0 z-50 bg-white shadow-sm overflow-visible">
+<header class="sticky top-0 z-50 bg-(--color-surface) shadow-sm overflow-visible">
 
-    <!-- Linha principal -->
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
 
-        <!-- Assinatura — ultrapassa o container -->
-        <a href={translatedPath('/')} class="shrink-0 self-stretch flex items-start pt-2">
+        <a href={translatedPath('/')} class="shrink-0 self-stretch flex items-center" aria-label="Danielle Spantosicus — página inicial">
             <Image
                 src={Assinatura}
                 alt="Danielle Spantosicus"
-                class="h-12 w-auto relative z-10 drop-shadow-sm"
+                class="signature-img h-16 w-auto relative z-10"
                 widths={[200, 400]}
-                sizes="(max-width: 640px) 160px, 200px"
+                sizes="(max-width: 640px) 160px, 100px"
                 loading="eager"
                 format="webp"
             />
         </a>
 
-        <!-- Nav central — só desktop -->
-        <div class="hidden sm:flex flex-1 justify-center">
+        <nav class="hidden sm:flex flex-1 justify-center" aria-label="Navegação principal">
             <Nav />
-        </div>
+        </nav>
 
-        <!-- Redes sociais + idioma -->
         <div class="flex items-center gap-3 shrink-0">
-            <div class="flex items-center gap-2">
-                <a href="https://vgen.co/Spantosicus_" target="_blank" rel="noopener noreferrer"
-                   class="opacity-60 hover:opacity-100 transition-opacity">
-                    <span class="sr-only">VGen profile</span>
-                    <img src={VGenLogo.src} alt="" width="20" height="20" />
-                </a>
-                <a href="https://www.instagram.com/spantosicus/" target="_blank" rel="noopener noreferrer"
-                   class="opacity-60 hover:opacity-100 transition-opacity">
-                    <span class="sr-only">Instagram</span>
-                    <img src={InstagramLogo.src} alt="" width="20" height="20" />
-                </a>
-                <a href="https://x.com/Spantosicus_" target="_blank" rel="noopener noreferrer"
-                   class="opacity-60 hover:opacity-100 transition-opacity">
-                    <span class="sr-only">X / Twitter</span>
-                    <img src={XLogo.src} alt="" width="20" height="20" />
-                </a>
-            </div>
+            <ul class="flex items-center gap-2 list-none m-0 p-0" aria-label="Redes sociais">
+                <li>
+                    <a href="https://vgen.co/Spantosicus_" target="_blank" rel="noopener noreferrer" class="social-link">
+                        <span class="sr-only">Perfil no VGen</span>
+                        <span class="social-icon" style={`mask-image: url(${VGenLogo.src}); -webkit-mask-image: url(${VGenLogo.src});`} aria-hidden="true"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/spantosicus/" target="_blank" rel="noopener noreferrer" class="social-link">
+                        <span class="sr-only">Instagram</span>
+                        <span class="social-icon" style={`mask-image: url(${InstagramLogo.src}); -webkit-mask-image: url(${InstagramLogo.src});`} aria-hidden="true"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="https://x.com/Spantosicus_" target="_blank" rel="noopener noreferrer" class="social-link">
+                        <span class="sr-only">X / Twitter</span>
+                        <span class="social-icon" style={`mask-image: url(${XLogo.src}); -webkit-mask-image: url(${XLogo.src});`} aria-hidden="true"></span>
+                    </a>
+                </li>
+            </ul>
             <LanguagePicker />
         </div>
     </div>
 
-    <!-- Segunda linha — nav mobile, sempre visível -->
-    <div class="sm:hidden border-t border-gray-100 ">
+    <div class="sm:hidden border-t border-(--color-border)">
         <div class="px-4 h-10 flex items-center justify-center">
-            <Nav />
+            <nav aria-label="Navegação mobile">
+                <Nav />
+            </nav>
         </div>
     </div>
 
 </header>
+
+<style>
+    .signature-img {
+        height: 4.5rem;
+        margin-top: 1rem;
+        width: auto;
+        position: relative;
+        z-index: 10;
+    }
+    
+    .social-icon {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background-color: var(--color-muted);
+        mask-repeat: no-repeat;
+        mask-position: center;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        -webkit-mask-size: contain;
+        transition: background-color 150ms ease, transform 150ms ease;
+    }
+
+    .social-link {
+        opacity: 0.7;
+        display: inline-flex;
+        transition: opacity 150ms ease;
+    }
+
+    .social-link:hover,
+    .social-link:focus-visible {
+        opacity: 1;
+    }
+
+    .social-link:hover .social-icon,
+    .social-link:focus-visible .social-icon {
+        background-color: var(--color-primary);
+        transform: translateY(-1px);
+    }
+</style>

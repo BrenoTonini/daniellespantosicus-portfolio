@@ -8,25 +8,27 @@ const translatedPath = useTranslatedPath(lang);
 const pathname = Astro.url.pathname;
 const homePath = translatedPath('/');
 const aboutPath = translatedPath('/about');
+const portfolioPath = translatedPath('/portfolio');
 
 const isHomeActive = pathname === homePath || pathname === `${homePath}/`;
 const isAboutActive = pathname === aboutPath || pathname === `${aboutPath}/`;
+const isPortfolioActive = pathname === portfolioPath || pathname === `${portfolioPath}/`;
 
 const linkBase = [
-    'relative flex h-full items-start px-3 pt-4 pb-3 text-sm font-medium no-underline transition-colors',
-    'after:absolute after:bottom-0 after:left-0 after:h-1 after:w-full after:transition-colors',
+    'nav-link',
+    'relative flex h-full items-start px-3 pt-2 pb-3 text-sm font-medium no-underline transition-colors',
+    'after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:transition-colors',
 ];
 ---
 
-<nav class="flex h-full items-stretch gap-1">
+<nav class="flex h-full items-stretch gap-1 z-50">
     <a 
         href={homePath}
         class:list={[
             ...linkBase,
-            '!text-(--black)',
             isHomeActive
-                ? 'after:bg-(--accent)'
-                : 'after:bg-transparent hover:after:bg-(--black)/40'
+                ? 'after:bg-(--color-primary)'
+                : 'after:bg-transparent hover:after:bg-(--color-primary)/40'
         ]}
     >
         {t('nav.home')}
@@ -36,12 +38,33 @@ const linkBase = [
         href={aboutPath}
         class:list={[
             ...linkBase,
-            '!text-(--black)',
             isAboutActive
-                ? 'after:bg-(--accent)'
-                : 'after:bg-transparent hover:after:bg-(--black)/40'
+                ? 'after:bg-(--color-primary)'
+                : 'after:bg-transparent hover:after:bg-(--color-primary)/40'
         ]}
     >
         {t('nav.about')}
     </a>
+
+    <a 
+        href={portfolioPath}
+        class:list={[
+            ...linkBase,
+            isPortfolioActive
+                ? 'after:bg-(--color-primary)'
+                : 'after:bg-transparent hover:after:bg-(--color-primary)/40'
+        ]}
+    >
+        {t('nav.portfolio')}
+    </a>
 </nav>
+<style>
+    .nav-link {
+        color: var(--color-muted);
+    }
+
+    .nav-link:hover,
+    .nav-link[aria-current="page"] {
+        color: var(--color-foreground);
+    }
+</style>
