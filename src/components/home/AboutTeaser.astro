@@ -1,0 +1,86 @@
+---
+import type { HomeContent } from '../../i18n/home';
+import { Image } from 'astro:assets';
+
+interface Props {
+  content: HomeContent['about'];
+}
+
+const { content } = Astro.props;
+
+const parallaxStrength = 40;
+const imageOpacity = 30;
+const cardOpacity = 0.75;
+---
+
+<section
+  class="relative py-24 lg:py-32 px-6 sm:px-10 lg:px-16 bg-(--color-sparkle) overflow-hidden"
+  aria-label="About the artist"
+>
+  <figure
+    class="absolute inset-0 pointer-events-none"
+    aria-hidden="true"
+  >
+    <Image
+      src={content.parallaxImage}
+      alt={content.imageAlt}
+      class="absolute top-[-20%] left-0 w-full h-[140%] object-cover object-center"
+      style={`opacity: ${imageOpacity / 100}`}
+      widths={[1200, 1800, 2400]}
+      sizes="100vw"
+      loading="lazy"
+      id="about-parallax-img"
+    />
+  </figure>
+
+  <div class="relative z-10 max-w-7xl mx-auto flex justify-center">
+    <div
+      class="w-full max-w-xl flex flex-col gap-8 px-8 py-10 sm:px-12 sm:py-14"
+      style={`background: color-mix(in srgb, var(--color-surface) ${cardOpacity * 100}%, transparent); backdrop-filter: blur(6px);`}
+    >
+      <span class="text-xs tracking-[0.25em] uppercase text-(--color-primary) font-sans font-medium">
+        {content.eyebrow}
+      </span>
+
+      <h2 class="font-display text-4xl md:text-5xl font-normal leading-[1.1] text-(--color-foreground)">
+        {content.heading}
+      </h2>
+
+      <p class="text-base leading-relaxed font-sans text-(--color-foreground-muted)">
+        {content.body}
+      </p>
+
+      <a
+        href={content.ctaHref}
+        class="self-start inline-flex items-center gap-2 text-sm font-sans font-medium text-(--color-foreground) border-b border-(--color-foreground-muted) pb-0.5 hover:text-(--color-primary) hover:border-(--color-primary) transition-colors duration-300"
+      >
+        {content.cta}
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<script define:vars={{ parallaxStrength }}>
+  const section = document.getElementById('about-parallax-img')?.closest('section');
+  const img = document.getElementById('about-parallax-img');
+
+  if (section && img && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const onScroll = () => {
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+
+      if (rect.bottom < 0 || rect.top > vh) return;
+
+      const progress = 1 - (rect.bottom / (vh + rect.height));
+      const offset = (progress - 0.5) * parallaxStrength;
+
+      img.style.transform = `translateY(${offset}%)`;
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>

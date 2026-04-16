@@ -1,0 +1,54 @@
+---
+import type { HomeContent } from '../../i18n/home';
+
+interface Props {
+  content: HomeContent['finalCta'];
+}
+
+const { content } = Astro.props;
+---
+
+<section
+  class="relative py-32 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden"
+  aria-label="Call to action"
+>
+  <div class="grain-overlay" aria-hidden="true"></div>
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2  w-[60vw] h-[60vw] max-w-2xl rounded-full bg-(--color-sparkle) opacity-90 blur-3xl"></div>
+  </div>
+
+  <div class="relative z-10 max-w-3xl mx-auto text-center flex flex-col items-center gap-8">
+
+    <div class="flex items-center gap-4" aria-hidden="true">
+      <div class="w-12 h-px bg-(--color-primary-soft)"></div>
+      <div class="w-1.5 h-1.5 rounded-full bg-(--color-primary)"></div>
+      <div class="w-12 h-px bg-(--color-primary-soft)"></div>
+    </div>
+
+    <h2 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-(--color-foreground) leading-[1.05] font-normal">
+      {content.heading}
+    </h2>
+
+    <p class="text-base sm:text-lg text-(--color-foreground-muted) font-sans leading-relaxed max-w-md">
+      {content.body}
+    </p>
+
+    <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 pt-2 w-full sm:w-auto">
+      <a
+        href={content.ctaPrimaryHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-10 py-4 bg-(--color-foreground) text-(--color-background) text-sm font-sans font-medium tracking-wide hover:bg-(--color-primary-dark) transition-colors duration-300"
+      >
+        {content.ctaPrimary}
+      </a>
+      <a
+        href={content.ctaSecondaryHref}
+        class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-10 py-4 border border-(--color-foreground) text-(--color-foreground) text-sm font-sans font-medium tracking-wide hover:bg-(--color-foreground) hover:text-(--color-background) transition-colors duration-300"
+      >
+        {content.ctaSecondary}
+      </a>
+    </div>
+
+  </div>
+</section>

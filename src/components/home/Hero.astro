@@ -1,0 +1,95 @@
+---
+import type { HomeContent } from '../../i18n/home';
+import { Image } from 'astro:assets';
+import BannerImage from '../../assets/works/dean-winchester.png';
+
+interface Props {
+  content: HomeContent['hero'];
+}
+
+const { content } = Astro.props;
+---
+
+<section
+  class="relative min-h-[calc(100svh-8rem)] overflow-hidden flex flex-col"
+  aria-label="Hero"
+>
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+    <div class="absolute top-[-10%] right-[-5%] w-[55vw] h-[55vw] max-w-3xl rounded-full bg-(--color-sparkle) opacity-60 blur-3xl"></div>
+    <div class="absolute bottom-[-5%] left-[-8%] w-[30vw] h-[30vw] rounded-full bg-(--color-primary-pale) opacity-40 blur-2xl"></div>
+  </div>
+
+  <figure class="lg:hidden absolute inset-0 pointer-events-none" aria-hidden="true">
+    <Image
+      src={BannerImage}
+      alt=""
+      class="w-full h-full object-cover object-[center_15%] opacity-20"
+      widths={[640, 960]}
+      sizes="100vw"
+      loading="eager"
+      format="webp"
+    />
+    <div class="absolute inset-0 bg-linear-to-b from-(--color-background)/20 via-transparent via-40% to-(--color-background)"></div>
+  </figure>
+
+  <div class="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 flex-1 flex items-center py-24 lg:py-32">
+    <div class="w-full grid lg:grid-cols-[1fr_auto] gap-16 lg:gap-24 items-center">
+
+      <div class="flex flex-col gap-8">
+        <span class="text-xs tracking-[0.25em] uppercase text-(--color-primary) font-sans font-medium">
+          {content.eyebrow}
+        </span>
+
+        <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl text-(--color-foreground) leading-[1.05] font-normal">
+          {content.heading}
+        </h1>
+
+        <p class="text-base sm:text-lg text-(--color-foreground-muted) leading-relaxed font-sans max-w-lg">
+          {content.subheading}
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
+          <a
+            href={content.ctaPrimaryHref}
+            class="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-(--color-foreground) text-(--color-background) text-sm font-sans font-medium tracking-wide hover:bg-(--color-primary-dark) transition-colors duration-300"
+          >
+            {content.ctaPrimary}
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a
+            href={content.ctaSecondaryHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-(--color-foreground) text-(--color-foreground) text-sm font-sans font-medium tracking-wide hover:bg-(--color-foreground) hover:text-(--color-background) transition-colors duration-300"
+          >
+            {content.ctaSecondary}
+          </a>
+        </div>
+      </div>
+
+      <figure class="relative hidden lg:block w-105 xl:w-120 shrink-0">
+        <div class="absolute -top-4 -right-4 w-full h-full border border-(--color-primary-pale)" aria-hidden="true"></div>
+        <Image
+          src={BannerImage}
+          alt={content.imageAlt}
+          class="relative z-10 w-full h-auto object-cover"
+          widths={[480, 960]}
+          sizes="480px"
+          loading="eager"
+          format="webp"
+        />
+      </figure>
+
+    </div>
+  </div>
+
+  <div class="relative z-10 flex flex-col items-center gap-2 opacity-40 pb-8 px-6 sm:px-10 lg:px-16" aria-hidden="true">
+    <span class="text-[10px] tracking-[0.2em] uppercase font-sans text-(--color-foreground)">{content.scrollHint}</span>
+    <div class="w-px h-8 bg-(--color-foreground) animate-pulse"></div>
+  </div>
+
+</section>

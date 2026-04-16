@@ -1,58 +1,104 @@
 ---
-// Import the global.css file here so that it is included on
-// all pages through the use of the <BaseHead /> component.
-import '../styles/global.css';
-import type { ImageMetadata } from 'astro';
-import FallbackImage from '../assets/danielle-spantosicus-banner.webp';
-import { SITE_TITLE } from '../consts';
+import "../styles/global.css";
+import type { ImageMetadata } from "astro";
+import FallbackImage from "../assets/danielle-spantosicus-banner.webp";
+import { SITE_TITLE } from "../consts";
 
 interface Props {
 	title: string;
 	description: string;
+	lang?: string;
+	canonicalURL?: string;
 	image?: ImageMetadata;
+	alternates?: { lang: string; href: string }[];
 }
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const {
+	title,
+	description,
+	lang = "pt-br",
+	canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+	image = FallbackImage,
+	alternates = [],
+} = Astro.props;
 
-const { title, description, image = FallbackImage } = Astro.props;
+const ogLocale = lang === "pt-br" ? "pt_BR" : "en_US";
+const ogImage = new URL(image.src, Astro.url);
+const xDefaultHref =
+	alternates.find((a) => a.lang === "en")?.href ?? canonicalURL;
 ---
 
-<!-- Global Metadata -->
+<!-- Essentials -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="icon" href="/favicon.ico" />
+
+<!-- Sitemap & RSS -->
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link
 	rel="alternate"
 	type="application/rss+xml"
 	title={SITE_TITLE}
-	href={new URL('rss.xml', Astro.site)}
+	href={new URL("rss.xml", Astro.site)}
 />
-<meta name="generator" content={Astro.generator} />
 
-<!-- Font preloads -->
-<link rel="preload" href="/fonts/atkinson-regular.woff" as="font" type="font/woff" crossorigin />
-<link rel="preload" href="/fonts/atkinson-bold.woff" as="font" type="font/woff" crossorigin />
+<!-- Fontes locais -->
+<link
+	rel="preload"
+	href="/fonts/atkinson-regular.woff"
+	as="font"
+	type="font/woff"
+	crossorigin
+/>
+<link
+	rel="preload"
+	href="/fonts/atkinson-bold.woff"
+	as="font"
+	type="font/woff"
+	crossorigin
+/>
 
-<!-- Canonical URL -->
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+	href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+	rel="stylesheet"
+/>
+
+<!-- Canonical & hreflang -->
 <link rel="canonical" href={canonicalURL} />
+{
+	alternates.map(({ lang: l, href }) => (
+		<link rel="alternate" hreflang={l} href={href} />
+	))
+}
+{
+	alternates.length > 0 && (
+		<link rel="alternate" hreflang="x-default" href={xDefaultHref} />
+	)
+}
 
-<!-- Primary Meta Tags -->
+<!-- Primary Meta -->
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
 
-<!-- Open Graph / Facebook -->
+<!-- Open Graph -->
 <meta property="og:type" content="website" />
-<meta property="og:url" content={Astro.url} />
+<meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image.src, Astro.url)} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content={ogLocale} />
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image.src, Astro.url)} />
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalURL} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />

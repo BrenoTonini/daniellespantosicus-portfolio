@@ -1,0 +1,94 @@
+---
+import type { HomeContent } from '../../i18n/home';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+  content: HomeContent['faq'];
+  lang: string;
+}
+
+const { content, lang } = Astro.props;
+
+// build FAQ structured data (JSON-LD) for SEO
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": content.items.map((item) => ({
+    "@type": "Question",
+    "name": item.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": item.answer,
+    },
+  })),
+};
+---
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(faqStructuredData)}
+/>
+
+<section class="py-24 lg:py-32 px-6 sm:px-10 lg:px-16" aria-label="FAQ">
+  <div class="max-w-7xl mx-auto">
+
+    <SectionHeading
+      eyebrow={content.eyebrow}
+      heading={content.heading}
+      class="mb-14"
+    />
+
+    <dl class="divide-y divide-(--color-primary-pale)">
+      {content.items.map((item) => (
+        <div class="group py-6">
+          <dt>
+            <button
+              class="faq-trigger w-full flex items-start justify-between gap-6 text-left hover:cursor-pointer"
+              aria-expanded="false"
+            >
+              <span class="font-sans font-medium text-base text-(--color-foreground) leading-snug">
+                {item.question}
+              </span>
+              <span
+                class="faq-icon shrink-0 mt-0.5 w-5 h-5 text-(--color-primary) transition-transform duration-300"
+                aria-hidden="true"
+              >
+                <svg viewBox="0 0 16 16" fill="none" class="w-full h-full">
+                  <path d="M3 8h10M8 3v10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </span>
+            </button>
+          </dt>
+          <dd class="faq-answer overflow-hidden max-h-0 transition-all duration-300 ease-in-out">
+            <p class="font-sans text-sm text-(--color-foreground-muted) leading-relaxed pt-4 max-w-2xl">
+              {item.answer}
+            </p>
+          </dd>
+        </div>
+      ))}
+    </dl>
+
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.faq-trigger').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      const answer = trigger.closest('div')?.querySelector('.faq-answer') as HTMLElement | null;
+      const icon = trigger.querySelector('.faq-icon') as HTMLElement | null;
+
+      if (!answer) return;
+
+      if (isOpen) {
+        answer.style.maxHeight = '0';
+        trigger.setAttribute('aria-expanded', 'false');
+        if (icon) icon.style.transform = 'rotate(0deg)';
+      } else {
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+        trigger.setAttribute('aria-expanded', 'true');
+        if (icon) icon.style.transform = 'rotate(45deg)';
+      }
+    });
+  });
+</script>

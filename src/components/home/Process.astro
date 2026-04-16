@@ -1,0 +1,58 @@
+---
+import type { HomeContent } from '../../i18n/home';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+  content: HomeContent['process'];
+}
+
+const { content } = Astro.props;
+---
+
+<section class="py-24 lg:py-32 px-6 sm:px-10 lg:px-16" aria-label="Process">
+  <div class="max-w-7xl mx-auto">
+
+    <SectionHeading
+      eyebrow={content.eyebrow}
+      heading={content.heading}
+      body={content.body}
+      class="mb-16"
+    />
+
+    <ol class="relative grid md:grid-cols-5 gap-0" role="list">
+      {content.steps.map((step, i) => (
+        <li class={`relative group
+            flex flex-row items-start gap-4 py-5
+            ${i < content.steps.length - 1 ? 'border-b border-(--color-primary-pale)' : ''}
+            md:flex-col md:items-center md:text-center md:px-4 md:py-0 md:border-b-0`}>
+          {i < content.steps.length - 1 && (
+            <div
+              class="hidden md:block absolute top-9 left-[calc(50%+2rem)] right-[-calc(50%-2rem)] h-px bg-(--color-primary-pale)"
+              aria-hidden="true"
+            ></div>
+          )}
+
+          <div
+            class="relative z-10 w-14 h-14 md:w-16 md:h-16 rounded-full border border-(--color-primary-pale) flex items-center justify-center bg-(--color-background) shrink-0 group-hover:border-(--color-primary) transition-colors duration-300"
+            aria-hidden="true"
+          >
+            <span class="font-display text-xl md:text-2xl text-(--color-primary) font-normal leading-none">
+              {step.number}
+            </span>
+          </div>
+
+          <div class="flex flex-col gap-1.5 md:gap-2 md:px-2 pt-1 md:pt-0">
+            <h3 class="font-sans font-medium text-sm text-(--color-foreground) tracking-wide">
+              {step.title}
+            </h3>
+            <p class="text-sm text-(--color-foreground-muted) leading-relaxed font-sans">
+              {step.description}
+            </p>
+          </div>
+
+        </li>
+      ))}
+    </ol>
+
+  </div>
+</section>

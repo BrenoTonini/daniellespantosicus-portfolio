@@ -1,0 +1,66 @@
+---
+import type { HomeContent } from '../../i18n/home';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+  content: HomeContent['services'];
+}
+
+const { content } = Astro.props;
+
+// Decorative SVG icons for each service
+const icons = [
+  // Character
+  `<path d="M8 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm0 8c-3.5 0-6 1.8-6 3v1h12v-1c0-1.2-2.5-3-6-3z" fill="currentColor"/>`,
+  // Looping Animation (clean circular arrows)
+  `<path d="M3.5 8a4.5 4.5 0 0 1 7.5-3.2L13 6M12.5 8a4.5 4.5 0 0 1-7.5 3.2L3 10" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M13 3.5V6h-2.5M3 12.5V10h2.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+  // Fanart / Star
+  `<path d="M8 2l1.5 4.5H14l-3.8 2.8L11.7 14 8 11.3 4.3 14l1.5-4.7L2 6.5h4.5L8 2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/>`,
+  // OC / Original Character (head + sparkle)
+  `<circle cx="8" cy="6" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
+  <path d="M3 14c0-2.5 2.5-4 5-4s5 1.5 5 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <path d="M12.5 3.5v2M12.5 7.5v2M10.5 5.5h2M14.5 5.5h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>`,
+  // VTuber / Camera
+  `<rect x="2" y="5" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M12 8l3-2v6l-3-2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>`,
+  // Fantasy / Moon
+  `<path d="M13 10A6 6 0 0 1 6 4a6 6 0 1 0 7 6z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/>`,
+];
+---
+
+<section
+  class="py-24 lg:py-32 px-6 sm:px-10 lg:px-16 bg-(--color-surface)"
+  aria-label="Services"
+>
+  <div class="max-w-7xl mx-auto">
+
+    <SectionHeading
+      eyebrow={content.eyebrow}
+      heading={content.heading}
+      body={content.body}
+      class="mb-14"
+    />
+
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-px bg-(--color-primary-pale)">
+      {content.items.map((item, i) => (
+        <article class="bg-(--color-surface) p-5 sm:p-8 flex flex-col gap-3 sm:gap-4 group hover:bg-(--color-background) transition-colors duration-300">
+          <div
+            class="w-8 h-8 sm:w-10 sm:h-10 text-(--color-primary) group-hover:text-(--color-foreground) transition-colors"
+            aria-hidden="true"
+          >
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+              <Fragment set:html={item.icon} />
+            </svg>
+          </div>
+          <h3 class="font-display text-base sm:text-xl text-(--color-foreground) font-normal leading-snug">
+            {item.title}
+          </h3>
+          <p class="text-xs sm:text-sm text-(--color-foreground-muted) leading-relaxed font-sans">
+            {item.description}
+          </p>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</section>

@@ -1,23 +1,36 @@
 ---
-import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
-import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import PageLayout from "../../layouts/PageLayout.astro";
+import { homeContent } from "../../i18n/home";
+import Hero from "../../components/home/Hero.astro";
+import FeaturedWorks from "../../components/home/FeaturedWorks.astro";
+import Services from "../../components/home/Services.astro";
+import Process from "../../components/home/Process.astro";
+import AboutTeaser from "../../components/home/AboutTeaser.astro";
+import Testimonials from "../../components/home/Testimonials.astro";
+import FAQ from "../../components/home/FAQ.astro";
+import FinalCTA from "../../components/home/FinalCTA.astro";
+
+const lang = "en";
+const content = homeContent[lang];
+const site = Astro.site ?? Astro.url.origin;
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>Hello, World!</h1>
-			<p>
-				Yes, i speak English!
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<PageLayout
+	title="Danielle Spantosicus — Digital Artist & Character Illustrator"
+	description="Custom digital art and character illustrations by Danielle Spantosicus. Open for commissions — characters, portraits, fanart, VTuber art, and more."
+	lang={lang}
+	canonicalURL={`${site}/en/`}
+	alternates={[
+		{ lang: "en", href: `${site}/en/` },
+		{ lang: "pt-BR", href: `${site}/pt-br/` },
+	]}
+>
+	<Hero content={content.hero} />
+	<FeaturedWorks content={content.featured} />
+	<Services content={content.services} />
+	<Process content={content.process} />
+	<AboutTeaser content={content.about} />
+	<Testimonials content={content.testimonials} />
+	<FAQ content={content.faq} lang={lang} />
+	<FinalCTA content={content.finalCta} />
+</PageLayout>

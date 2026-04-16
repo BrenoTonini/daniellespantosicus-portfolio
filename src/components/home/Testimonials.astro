@@ -1,0 +1,276 @@
+---
+import type { HomeContent } from "../../i18n/home";
+import SectionHeading from "./SectionHeading.astro";
+
+interface Props {
+  content: HomeContent["testimonials"];
+}
+
+const { content } = Astro.props;
+---
+
+<section
+  class="py-24 lg:py-32 px-6 sm:px-10 lg:px-16 bg-(--color-surface) overflow-hidden"
+  aria-label="Avaliações de clientes"
+>
+  <div class="max-w-7xl mx-auto">
+    <SectionHeading
+      eyebrow={content.eyebrow}
+      heading={content.heading}
+      align="left"
+      class="mb-8 mx-auto"
+    />
+
+    <div class="relative" data-carousel-wrapper>
+      <button
+        class="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 z-10
+               bg-(--color-background) border border-(--color-border)
+               rounded-full w-9 h-9 items-center justify-center
+               hover:border-(--color-border-hover) transition-colors duration-200 cursor-pointer"
+        data-carousel-prev
+        aria-label="Anterior"
+      >
+        ←
+      </button>
+
+      <button
+        class="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 z-10
+               bg-(--color-background) border border-(--color-border)
+               rounded-full w-9 h-9 items-center justify-center
+               hover:border-(--color-border-hover) transition-colors duration-200 cursor-pointer"
+        data-carousel-next
+        aria-label="Próximo"
+      >
+        →
+      </button>
+
+      <div class="overflow-hidden py-3" data-carousel-viewport>
+        <div
+          class="flex gap-5 will-change-transform"
+          data-carousel-track
+          role="list"
+        >
+          {
+            [
+              ...content.items.slice(-3),
+              ...content.items,
+              ...content.items.slice(0, 3),
+            ].map((item, i) => (
+              <figure
+                class="shrink-0 bg-(--color-background) rounded-xl p-5 sm:p-6 lg:p-8
+                     flex flex-col gap-4 sm:gap-5 border border-(--color-border)
+                     hover:border-(--color-primary) transition-colors duration-300
+                     select-none"
+                role="listitem"
+                itemscope
+                itemtype="https://schema.org/Review"
+                data-carousel-card
+              >
+                <div
+                  class="flex items-center gap-1 text-(--color-primary)"
+                  aria-label="5 de 5 estrelas"
+                  itemprop="reviewRating"
+                  itemscope
+                  itemtype="https://schema.org/Rating"
+                >
+                  <meta itemprop="ratingValue" content="5" />
+                  <meta itemprop="bestRating" content="5" />
+                  {[...Array(5)].map(() => (
+                    <span aria-hidden="true">★</span>
+                  ))}
+                </div>
+
+                <blockquote class="flex-1" itemprop="reviewBody">
+                  <p class="font-display text-md text-(--color-foreground) leading-relaxed italic">
+                    "{item.quote}"
+                  </p>
+                </blockquote>
+
+                <figcaption
+                  class="flex flex-col gap-0.5"
+                  itemprop="author"
+                  itemscope
+                  itemtype="https://schema.org/Person"
+                >
+                  <span
+                    class="text-sm font-sans font-medium text-(--color-foreground)"
+                    itemprop="name"
+                  >
+                    {item.author}
+                  </span>
+                  <span class="text-xs font-sans text-(--color-foreground-muted) tracking-wide">
+                    {item.context}
+                  </span>
+                </figcaption>
+              </figure>
+            ))
+          }
+        </div>
+      </div>
+
+      <div
+        class="flex justify-center gap-2 mt-6"
+        data-carousel-dots
+        aria-label="Navegação do carrossel"
+      >
+        {
+          content.items.map((_, i) => (
+            <button
+              class="w-1.5 h-1.5 rounded-full bg-(--color-border) transition-all duration-200 hover: cursor-pointer"
+              data-dot={i}
+              aria-label={`Ir para avaliação ${i + 1}`}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const CLONE_COUNT = 3;
+    const GAP_PX = 20;
+
+    document.querySelectorAll("[data-carousel-wrapper]").forEach((wrapper) => {
+      const track = wrapper.querySelector<HTMLElement>(
+        "[data-carousel-track]",
+      )!;
+      const viewport = wrapper.querySelector<HTMLElement>(
+        "[data-carousel-viewport]",
+      )!;
+      const prevBtn = wrapper.querySelector<HTMLButtonElement>(
+        "[data-carousel-prev]",
+      )!;
+      const nextBtn = wrapper.querySelector<HTMLButtonElement>(
+        "[data-carousel-next]",
+      )!;
+      const dotsEl = wrapper.querySelectorAll<HTMLButtonElement>("[data-dot]");
+      const cards = wrapper.querySelectorAll<HTMLElement>(
+        "[data-carousel-card]",
+      );
+
+      const totalReal = cards.length - CLONE_COUNT * 2;
+
+      let currentIndex = 0;
+      let cardWidth = 0;
+      let visibleCount = 1;
+      let animating = false;
+
+
+      function getVisibleCount(): number {
+        const w = window.innerWidth;
+        if (w >= 1024) return 3;
+        if (w >= 640) return 2;
+        return 1;
+      }
+
+      function measure() {
+        visibleCount = getVisibleCount();
+        cardWidth =
+          (viewport.offsetWidth - GAP_PX * (visibleCount - 1)) / visibleCount;
+        cards.forEach((c) => (c.style.width = `${cardWidth}px`));
+      }
+
+      function offsetFor(realIndex: number): number {
+        const domIndex = realIndex + CLONE_COUNT;
+        return -(domIndex * (cardWidth + GAP_PX));
+      }
+
+      function applyTransform(offset: number, animate: boolean) {
+        track.style.transition = animate
+          ? "transform .4s cubic-bezier(.4,0,.2,1)"
+          : "none";
+        track.style.transform = `translateX(${offset}px)`;
+      }
+
+      function updateDots() {
+        dotsEl.forEach((dot, i) => {
+          const isActive = i === currentIndex;
+          dot.classList.toggle("scale-150", isActive);
+          dot.style.background = isActive
+            ? "var(--color-primary)"
+            : "var(--color-border)";
+        });
+      }
+
+      function goTo(realIndex: number, animate = true) {
+        currentIndex = ((realIndex % totalReal) + totalReal) % totalReal;
+        applyTransform(offsetFor(currentIndex), animate);
+        updateDots();
+      }
+
+      function navigate(direction: 1 | -1) {
+        if (animating) return;
+        animating = true;
+
+        const nextReal = currentIndex + direction;
+        const nextDomIndex = nextReal + CLONE_COUNT;
+        const targetOffset = -(nextDomIndex * (cardWidth + GAP_PX));
+
+        applyTransform(targetOffset, true);
+
+        track.addEventListener(
+          "transitionend",
+          () => {
+            currentIndex = ((nextReal % totalReal) + totalReal) % totalReal;
+            applyTransform(offsetFor(currentIndex), false);
+            updateDots();
+            animating = false;
+          },
+          { once: true },
+        );
+      }
+
+      prevBtn?.addEventListener("click", () => navigate(-1));
+      nextBtn?.addEventListener("click", () => navigate(1));
+
+      dotsEl.forEach((dot, i) => {
+        dot.addEventListener("click", () => goTo(i));
+      });
+
+      let touchStartX = 0;
+      let touchDeltaX = 0;
+      let baseOffset = 0;
+
+      track.addEventListener(
+        "touchstart",
+        (e) => {
+          if (animating) return;
+          touchStartX = e.touches[0].clientX;
+          touchDeltaX = 0;
+          baseOffset = offsetFor(currentIndex);
+          track.style.transition = "none";
+        },
+        { passive: true },
+      );
+
+      track.addEventListener(
+        "touchmove",
+        (e) => {
+          touchDeltaX = e.touches[0].clientX - touchStartX;
+          track.style.transform = `translateX(${baseOffset + touchDeltaX}px)`;
+        },
+        { passive: true },
+      );
+
+      track.addEventListener("touchend", () => {
+        const threshold = cardWidth * 0.2;
+        if (Math.abs(touchDeltaX) > threshold) {
+          navigate(touchDeltaX < 0 ? 1 : -1);
+        } else {
+          goTo(currentIndex, true);
+        }
+        touchDeltaX = 0;
+      });
+
+      measure();
+      goTo(0, false);
+
+      window.addEventListener("resize", () => {
+        measure();
+        goTo(currentIndex, false);
+      });
+    });
+  })();
+</script>

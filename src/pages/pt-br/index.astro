@@ -1,23 +1,36 @@
 ---
-import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
-import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import PageLayout from "../../layouts/PageLayout.astro";
+import { homeContent } from "../../i18n/home";
+import Hero from "../../components/home/Hero.astro";
+import FeaturedWorks from "../../components/home/FeaturedWorks.astro";
+import Services from "../../components/home/Services.astro";
+import Process from "../../components/home/Process.astro";
+import AboutTeaser from "../../components/home/AboutTeaser.astro";
+import Testimonials from "../../components/home/Testimonials.astro";
+import FAQ from "../../components/home/FAQ.astro";
+import FinalCTA from "../../components/home/FinalCTA.astro";
+
+const lang = "pt-br";
+const content = homeContent[lang];
+const site = Astro.site ?? Astro.url.origin;
 ---
 
-<!doctype html>
-<html lang="pt-BR">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>Olá, Mundo!</h1>
-			<p>
-				Saudação que não pode faltar, mas agora em português!
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<PageLayout
+	title="Danielle Spantosicus — Artista Digital e Ilustradora de Personagens"
+	description="Ilustrações digitais personalizadas e arte de personagens por Danielle Spantosicus. Aberta para comissões - personagens, retratos, fanart, arte para VTubers e mais."
+	lang={lang}
+	canonicalURL={`${site}/pt-br/`}
+	alternates={[
+		{ lang: "en", href: `${site}/en/` },
+		{ lang: "pt-BR", href: `${site}/pt-br/` },
+	]}
+>
+	<Hero content={content.hero as any} />
+	<FeaturedWorks content={content.featured as any} />
+	<Services content={content.services as any} />
+	<Process content={content.process as any} />
+	<AboutTeaser content={content.about as any} />
+	<Testimonials content={content.testimonials as any} />
+	<FAQ content={content.faq as any} lang={lang} />
+	<FinalCTA content={content.finalCta as any} />
+</PageLayout>
