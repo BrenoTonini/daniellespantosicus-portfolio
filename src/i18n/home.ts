@@ -290,6 +290,7 @@ export const homeContent = {
       ctaSecondaryHref: "https://vgen.co/Spantosicus_",
       imageAlt:
         "Ilustração digital por Danielle Spantosicus — obra em destaque",
+      scrollHint: "Role para baixo para ver mais",
     },
 
     featured: {

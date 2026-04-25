@@ -1,0 +1,43 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  title: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  eyebrow?: string;
+}
+
+const { title, image, imageAlt, eyebrow } = Astro.props;
+---
+
+<section class="relative isolate overflow-hidden" aria-label="About hero">
+  <div class="absolute inset-0 bg-(--color-background)" aria-hidden="true"></div>
+  <Image
+    src={image}
+    alt={imageAlt}
+    class="relative h-[16svh] min-h-45 w-full object-cover object-[center_28%] sm:h-[22svh] lg:h-[30svh]"
+    widths={[768, 1280, 1920, 2560]}
+    sizes="100vw"
+    loading="eager"
+    format="webp"
+  />
+  <div class="absolute inset-0 bg-linear-to-t from-(--color-background)/90 via-(--color-background)/45 to-transparent" aria-hidden="true"></div>
+  {(eyebrow || title) && (
+    <div class="absolute inset-x-0 bottom-0 z-10 px-6 pb-8 sm:px-10 sm:pb-10 lg:px-16 lg:pb-14">
+      <div class="mx-auto w-full max-w-7xl">
+        {eyebrow && (
+          <p class="mb-3 font-sans text-xs font-medium uppercase tracking-[0.25em] text-(--color-primary)">
+            {eyebrow}
+          </p>
+        )}
+        {title && (
+          <h1 class="max-w-4xl font-display text-4xl leading-[1.05] text-(--color-foreground) sm:text-6xl lg:text-7xl">
+            {title}
+          </h1>
+        )}
+      </div>
+    </div>
+  )}
+</section>
