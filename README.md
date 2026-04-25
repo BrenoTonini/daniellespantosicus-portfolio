@@ -4,7 +4,7 @@ Site oficial de portfólio e comissões da artista digital [Danielle Spantosicus
 
 ## Sobre
 
-Projeto desenvolvido para apresentar o trabalho e os serviços de comissão da artista.
+Projeto criado para apresentar o trabalho e os serviços de comissão da artista. Planejado e desenvolvido por um homem 100% apaixonado.
 
 ### Páginas
 
