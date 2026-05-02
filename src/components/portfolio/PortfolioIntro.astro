@@ -1,0 +1,20 @@
+---
+import type { PortfolioPageContent } from '../../i18n/portfolio';
+
+interface Props {
+  content: PortfolioPageContent['intro'];
+}
+
+const { content } = Astro.props;
+---
+
+<section class="w-full pb-12 pt-16 sm:pb-14 sm:pt-20 lg:pb-16 lg:pt-24" aria-label="Portfolio intro">
+  <div class="w-full">
+    <h1 class="font-display text-5xl leading-[1.05] text-(--color-foreground) sm:text-6xl lg:text-7xl text-center">
+      {content.heading}
+    </h1>
+    <p class="mt-5 text-center font-sans text-base leading-relaxed text-(--color-foreground-muted) sm:text-lg">
+      {content.description}
+    </p>
+  </div>
+</section>

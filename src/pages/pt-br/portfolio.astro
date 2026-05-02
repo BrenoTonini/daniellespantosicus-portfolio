@@ -1,0 +1,25 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import { portfolioContent } from '../../i18n/portfolio';
+import PortfolioIntro from '../../components/portfolio/PortfolioIntro.astro';
+import PortfolioGallery from '../../components/portfolio/PortfolioGallery.astro';
+
+const lang = 'pt-br';
+const content = portfolioContent[lang];
+const site = Astro.site ?? Astro.url.origin;
+---
+
+<PageLayout
+  title={content.seo.title}
+  description={content.seo.description}
+  lang={lang}
+  canonicalURL={`${site}/pt-br/portfolio/`}
+  ogImage={content.ogImage}
+  alternates={[
+    { lang: 'en', href: `${site}/en/portfolio/` },
+    { lang: 'pt-BR', href: `${site}/pt-br/portfolio/` },
+  ]}
+>
+  <PortfolioIntro content={content.intro} />
+  <PortfolioGallery content={content.gallery} />
+</PageLayout>
