@@ -11,7 +11,12 @@ import vercel from '@astrojs/vercel';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://daniellespantosicus.com.br',
-  integrations: [mdx(), sitemap()],
+  integrations: [
+    mdx(),
+    sitemap({
+      filter: (page) => new URL(page).pathname !== '/',
+    }),
+  ],
   output: 'server',
 
   vite: {
