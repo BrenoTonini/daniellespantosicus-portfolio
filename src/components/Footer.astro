@@ -1,30 +1,34 @@
----
+﻿---
 import VGenLogo from '../assets/icons/vgen-logo-outline.svg';
 import InstagramLogo from '../assets/icons/instagram-logo-outline.svg';
 import XLogo from '../assets/icons/x-logo-outline.svg';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 const today = new Date();
+const copyright = t('footer.copyright').replace('{year}', String(today.getFullYear()));
 ---
 
 <footer>
-    <p class="copyright">&copy; {today.getFullYear()} Danielle Spantosicus. All rights reserved.</p>
+    <p class="copyright">{copyright}</p>
 
-    <ul class="social-links" aria-label="Redes sociais">
+    <ul class="social-links" aria-label={t('footer.socials.ariaLabel')}>
         <li>
             <a href="https://vgen.co/Spantosicus_" target="_blank" rel="noopener noreferrer" class="social-link">
-                <span class="sr-only">Perfil no VGen de Danielle Spantosicus</span>
+                <span class="sr-only">{t('footer.socials.vgen')}</span>
                 <span class="social-icon" style={`mask-image: url(${VGenLogo.src}); -webkit-mask-image: url(${VGenLogo.src});`} aria-hidden="true"></span>
             </a>
         </li>
         <li>
             <a href="https://www.instagram.com/spantosicus/" target="_blank" rel="noopener noreferrer" class="social-link">
-                <span class="sr-only">Siga Danielle Spantosicus no Instagram</span>
+                <span class="sr-only">{t('footer.socials.instagram')}</span>
                 <span class="social-icon" style={`mask-image: url(${InstagramLogo.src}); -webkit-mask-image: url(${InstagramLogo.src});`} aria-hidden="true"></span>
             </a>
         </li>
         <li>
             <a href="https://x.com/Spantosicus_" target="_blank" rel="noopener noreferrer" class="social-link">
-                <span class="sr-only">Siga Danielle Spantosicus no X / Twitter</span>
+                <span class="sr-only">{t('footer.socials.x')}</span>
                 <span class="social-icon" style={`mask-image: url(${XLogo.src}); -webkit-mask-image: url(${XLogo.src});`} aria-hidden="true"></span>
             </a>
         </li>
@@ -54,7 +58,6 @@ const today = new Date();
         padding: 0;
     }
 
-    /* Idêntico ao Header.astro */
     .social-icon {
         display: inline-block;
         width: 24px;
