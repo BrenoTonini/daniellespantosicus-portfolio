@@ -14,14 +14,28 @@ const { content } = Astro.props;
     <div class="columns-2 gap-x-3 lg:columns-3">
       {content.items.map((item) => (
         <figure class="group relative mb-3 break-inside-avoid overflow-hidden bg-(--color-surface)">
-          <Image
-            src={item.src}
-            alt={item.alt}
-            widths={[400, 800, 1200]}
-            sizes="(max-width: 1024px) 50vw, 33vw"
-            loading={item.eager ? "eager" : "lazy"}
-            class="block h-auto w-full"
-          />
+          {item.type === 'video' ? (
+            <video
+              autoplay
+              loop
+              muted
+              playsinline
+              poster={item.poster}
+              aria-label={item.alt}
+              class="block h-auto w-full"
+            >
+              <source src={item.src} type="video/webm" />
+            </video>
+          ) : (
+            <Image
+              src={item.src}
+              alt={item.alt}
+              widths={[400, 800, 1200]}
+              sizes="(max-width: 1024px) 50vw, 33vw"
+              loading={item.eager ? "eager" : "lazy"}
+              class="block h-auto w-full"
+            />
+          )}
 
           <figcaption class="absolute inset-x-0 bottom-0 translate-y-full bg-(--color-foreground)/60 px-3 py-2 font-sans text-xs text-(--color-background) transition-transform duration-300 group-hover:translate-y-0">
             {item.title}

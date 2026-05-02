@@ -1,4 +1,4 @@
-﻿import AboutHeroImage from "../assets/works/dean-winchester.png";
+﻿import AboutHeroImage from "../assets/works/dean-winchester.webp";
 
 export const aboutContent = {
   en: {

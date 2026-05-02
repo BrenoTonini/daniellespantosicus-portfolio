@@ -1,16 +1,13 @@
+import type { ImageMetadata } from 'astro';
 
-// featured artworks
-import DeanAndCastiel from '../assets/works/dean-and-castiel.png';
-import DeanAndSam from '../assets/works/dean-and-sam.png';
-import DeanWinchester from '../assets/works/dean-winchester.png';
-import MrBeast from '../assets/works/mr-beast.png';
-import SlyCooper from '../assets/works/sly-cooper.png';
-import GifSly from '../assets/works/gif-sly.gif';
-import GifCarmelita from '../assets/works/gif-carmelita.gif';
-import Chandler from '../assets/works/chandler.png';
+import DeanAndCastiel from '../assets/works/dean-and-castiel.webp';
+import DeanAndSam from '../assets/works/dean-and-sam.webp';
+import DeanWinchester from '../assets/works/dean-winchester.webp';
+import MrBeast from '../assets/works/mr-beast.webp';
+import SlyCooper from '../assets/works/sly-cooper.webp';
+import Chandler from '../assets/works/chandler.webp';
 
-// about teaser
-import SupernaturalWendigo from '../assets/works/supernatural-wendigo.png';
+import SupernaturalWendigo from '../assets/works/supernatural-wendigo.webp';
 
 const icons: Record<string, string> = {
   character: `
@@ -37,6 +34,26 @@ const icons: Record<string, string> = {
     <path d="M13 10A6 6 0 0 1 6 4a6 6 0 1 0 7 6z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/>`,
 };
 
+interface FeaturedImageWork {
+  type?: never;
+  src: ImageMetadata;
+  alt: string;
+  caption: string;
+}
+
+interface FeaturedVideoWork {
+  type: 'video';
+  src: string;
+  poster?: string;
+  alt: string;
+  caption: string;
+}
+
+export type FeaturedWork = FeaturedImageWork | FeaturedVideoWork;
+
+function defineWorks(works: FeaturedWork[]): FeaturedWork[] {
+  return works;
+}
 
 export const homeContent = {
   "en": {
@@ -48,6 +65,7 @@ export const homeContent = {
       ctaSecondary: "Commission Me",
       ctaPrimaryHref: "/en/portfolio",
       ctaSecondaryHref: "https://vgen.co/Spantosicus_",
+      bannerImage: DeanWinchester,
       imageAlt: "Digital illustration by Danielle Spantosicus — featured artwork",
       scrollHint: "Scroll down to see more",
     },
@@ -58,7 +76,7 @@ export const homeContent = {
       body: "Here are some of my personal creations. To see more of my projects, visit my portfolio!",
       cta: "Browse Full Portfolio",
       ctaHref: "/en/portfolio",
-      works: [
+      works: defineWorks([
         {
           src: DeanWinchester,
           alt: 'Dean Winchester fan art illustration — character portrait from Supernatural',
@@ -75,7 +93,8 @@ export const homeContent = {
           caption: 'Dean & Sam',
         },
         {
-          src: GifSly,
+          type: 'video',
+          src: '/works/gif-sly.webm',
           alt: 'Sly Cooper animated pixel art GIF — video game character illustration',
           caption: 'Gif Sly Cooper',
         },
@@ -90,7 +109,8 @@ export const homeContent = {
           caption: 'Mr. Beast',
         },
         {
-          src: GifCarmelita,
+          type: 'video',
+          src: '/works/gif-carmelita.webm',
           alt: 'Carmelita Fox animated pixel art GIF — video game character illustration from Sly Cooper series',
           caption: 'Gif Carmelita Fox',
         },
@@ -99,7 +119,7 @@ export const homeContent = {
           alt: 'Dean Winchester and Castiel fan art illustration — Supernatural character portrait',
           caption: 'Dean & Castiel',
         },
-      ]
+      ])
     },
 
     services: {
@@ -299,7 +319,7 @@ export const homeContent = {
       body: "Aqui estão algumas das minhas criações pessoais. Para ver mais projetos, visite meu portfólio!",
       cta: "Ver Portfólio Completo",
       ctaHref: "/pt-br/portfolio",
-      works: [
+      works: defineWorks([
         {
           src: DeanWinchester,
           alt: 'Ilustração fan art do Dean Winchester — retrato do personagem de Supernatural',
@@ -316,8 +336,9 @@ export const homeContent = {
           caption: 'Dean & Sam',
         },
         {
-          src: GifSly,
-          alt: 'GIF animado em pixel art do Sly Cooper — ilustração do personagem de videogame',
+          type: 'video',
+          src: '/works/gif-sly.webm',
+          alt: 'GIF animado do Sly Cooper — ilustração do personagem de videogame',
           caption: 'Gif Sly Cooper',
         },
         {
@@ -331,8 +352,9 @@ export const homeContent = {
           caption: 'Mr. Beast',
         },
         {
-          src: GifCarmelita,
-          alt: 'GIF animado em pixel art da Carmelita Fox — ilustração da personagem da série Sly Cooper',
+          type: 'video',
+          src: '/works/gif-carmelita.webm',
+          alt: 'GIF animado da Carmelita Fox — ilustração da personagem da série Sly Cooper',
           caption: 'Gif Carmelita Fox',
         },
         {
@@ -340,7 +362,7 @@ export const homeContent = {
           alt: 'Ilustração fan art de Dean Winchester e Castiel — retrato dos personagens de Supernatural',
           caption: 'Dean & Castiel',
         },
-      ]
+      ])
     },
 
     services: {

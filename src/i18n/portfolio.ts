@@ -1,18 +1,16 @@
 import type { ImageMetadata } from 'astro';
 
-import DeanAndCastiel from '../assets/works/dean-and-castiel.png';
-import DeanAndSam from '../assets/works/dean-and-sam.png';
-import DeanWinchester from '../assets/works/dean-winchester.png';
-import MrBeast from '../assets/works/mr-beast.png';
-import SlyCooper from '../assets/works/sly-cooper.png';
-import GifSly from '../assets/works/gif-sly.gif';
-import GifCarmelita from '../assets/works/gif-carmelita.gif';
-import Chandler from '../assets/works/chandler.png';
-import SupernaturalWendigo from '../assets/works/supernatural-wendigo.png';
-import MariaAndJohnny from '../assets/works/maria-and-johnny-commission.png';
-import PidgeConcept from '../assets/works/pidge-concept-commission.png';
-import Clover from '../assets/works/clover-commission.png';
-import TheBoys from '../assets/works/the-boys-commission.png';
+import DeanAndCastiel from '../assets/works/dean-and-castiel.webp';
+import DeanAndSam from '../assets/works/dean-and-sam.webp';
+import DeanWinchester from '../assets/works/dean-winchester.webp';
+import MrBeast from '../assets/works/mr-beast.webp';
+import SlyCooper from '../assets/works/sly-cooper.webp';
+import Chandler from '../assets/works/chandler.webp';
+import SupernaturalWendigo from '../assets/works/supernatural-wendigo.webp';
+import MariaAndJohnny from '../assets/works/maria-and-johnny-commission.webp';
+import PidgeConcept from '../assets/works/pidge-concept-commission.webp';
+import Clover from '../assets/works/clover-commission.webp';
+import TheBoys from '../assets/works/the-boys-commission.webp';
 
 type PortfolioLocale = 'en' | 'pt-br';
 
@@ -26,12 +24,24 @@ interface PortfolioIntro {
   description: string;
 }
 
-interface PortfolioItem {
+interface PortfolioImageItem {
+  type?: 'image'; // opcional, default
   src: ImageMetadata;
   alt: string;
   title: string;
   eager?: boolean;
 }
+
+interface PortfolioVideoItem {
+  type: 'video';
+  src: string;
+  poster?: string;
+  alt: string;
+  title: string;
+  eager?: boolean;
+}
+
+export type PortfolioItem = PortfolioImageItem | PortfolioVideoItem;
 
 interface PortfolioGallery {
   items: PortfolioItem[];
@@ -92,7 +102,8 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
           title: 'Pidge concept art',
         },
         {
-          src: GifSly,
+          type: 'video',
+          src: '/works/gif-sly.webm',
           alt: 'Animated GIF of Sly Cooper',
           title: 'GIF Sly Cooper',
         },
@@ -118,7 +129,8 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
           title: 'The Boys Commission',
         },
         {
-          src: GifCarmelita,
+          type: 'video',
+          src: '/works/gif-carmelita.webm',
           alt: 'Animated GIF of Carmelita Fox',
           title: 'GIF Carmelita Fox',
         },
@@ -177,7 +189,8 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
           title: 'Pidge concept art'
         },
         {
-          src: GifSly,
+          type: 'video',
+          src: '/works/gif-sly.webm',
           alt: 'GIF animado do Sly Cooper',
           title: 'GIF Sly Cooper',
         },
@@ -203,7 +216,8 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
           title: 'The boys Commission'
         },
         {
-          src: GifCarmelita,
+          type: 'video',
+          src: '/works/gif-carmelita.webm',
           alt: 'GIF animado da Carmelita Fox',
           title: 'GIF Carmelita Fox',
         },

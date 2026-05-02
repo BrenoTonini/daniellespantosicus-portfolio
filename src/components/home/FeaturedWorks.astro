@@ -33,15 +33,28 @@ const { content } = Astro.props;
     <div class="columns-2 lg:columns-3 gap-x-3">
       {content.works.map((work) => (
         <figure class="group relative mb-3 break-inside-avoid overflow-hidden bg-(--color-surface)">
-          <Image
-            src={work.src}
-            alt={work.alt}
-            widths={[400, 800, 1200]}
-            sizes="(max-width: 1024px) 50vw, 33vw"
-            loading="lazy"
-            class="block w-full h-auto"
-          />
-
+          {work.type === 'video' ? (
+            <video
+              autoplay
+              loop
+              muted
+              playsinline
+              aria-label={work.alt}
+              class="block h-auto w-full"
+            >
+              <source src={work.src} type="video/webm" />
+            </video>
+          ) : (
+            <Image
+              src={work.src}
+              alt={work.alt}
+              widths={[400, 800, 1200]}
+              sizes="(max-width: 1024px) 50vw, 33vw"
+              loading="lazy"
+              class="block w-full h-auto"
+            />
+          )}
+          
           <figcaption class="absolute inset-x-0 bottom-0 px-3 py-2 bg-(--color-foreground)/60 text-(--color-background) text-xs font-sans translate-y-full group-hover:translate-y-0 transition-transform duration-300">
             {work.caption}
           </figcaption>

@@ -1,7 +1,6 @@
 ---
 import type { HomeContent } from '../../i18n/home';
 import { Image } from 'astro:assets';
-import BannerImage from '../../assets/works/dean-winchester.png';
 
 interface Props {
   content: HomeContent['hero'];
@@ -23,8 +22,8 @@ const { content } = Astro.props;
 
   <figure class="lg:hidden absolute inset-0 pointer-events-none" aria-hidden="true">
     <Image
-      src={BannerImage}
-      alt=""
+      src={content.bannerImage}
+      alt={content.imageAlt}
       class="w-full h-full object-cover object-[center_15%] opacity-20"
       widths={[640, 960]}
       sizes="100vw"
@@ -74,7 +73,7 @@ const { content } = Astro.props;
       <figure class="relative hidden lg:block w-105 xl:w-120 shrink-0">
         <div class="absolute -top-4 -right-4 w-full h-full border border-(--color-primary-pale)" aria-hidden="true"></div>
         <Image
-          src={BannerImage}
+          src={content.bannerImage}
           alt={content.imageAlt}
           class="relative z-10 w-full h-auto object-cover"
           widths={[480, 960]}
