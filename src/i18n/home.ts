@@ -308,8 +308,8 @@ export const homeContent = {
       ctaSecondary: "Me Comissionar",
       ctaPrimaryHref: "/pt-br/portfolio",
       ctaSecondaryHref: "https://vgen.co/Spantosicus_",
-      imageAlt:
-        "Ilustração digital por Danielle Spantosicus — obra em destaque",
+      bannerImage: DeanWinchester,
+      imageAlt: "Ilustração digital por Danielle Spantosicus — obra em destaque",
       scrollHint: "Role para baixo para ver mais",
     },
 
