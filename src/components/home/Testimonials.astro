@@ -7,7 +7,37 @@ interface Props {
 }
 
 const { content } = Astro.props;
+
+const testimonialsStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Art Commission by Danielle Spantosicus",
+  "review": content.items.map((item) => ({
+    "@type": "Review",
+    "reviewRating": {
+      "@type": "Rating",
+      "ratingValue": 5,
+      "bestRating": 5,
+    },
+    "author": {
+      "@type": "Person",
+      "name": item.author,
+    },
+    "reviewBody": item.quote,
+  })),
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": 5,
+    "bestRating": 5,
+    "ratingCount": content.items.length,
+  },
+};
 ---
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify(testimonialsStructuredData)}
+/>
 
 <section
   class="py-24 lg:py-32 px-6 sm:px-10 lg:px-16 bg-(--color-surface) overflow-hidden"
@@ -62,25 +92,18 @@ const { content } = Astro.props;
                      hover:border-(--color-primary) transition-colors duration-300
                      select-none"
                 role="listitem"
-                itemscope
-                itemtype="https://schema.org/Review"
                 data-carousel-card
               >
                 <div
                   class="flex items-center gap-1 text-(--color-primary)"
                   aria-label="5 de 5 estrelas"
-                  itemprop="reviewRating"
-                  itemscope
-                  itemtype="https://schema.org/Rating"
                 >
-                  <meta itemprop="ratingValue" content="5" />
-                  <meta itemprop="bestRating" content="5" />
                   {[...Array(5)].map(() => (
                     <span aria-hidden="true">★</span>
                   ))}
                 </div>
 
-                <blockquote class="flex-1" itemprop="reviewBody">
+                <blockquote class="flex-1">
                   <p class="font-display text-md text-(--color-foreground) leading-relaxed italic">
                     "{item.quote}"
                   </p>
@@ -88,13 +111,9 @@ const { content } = Astro.props;
 
                 <figcaption
                   class="flex flex-col gap-0.5"
-                  itemprop="author"
-                  itemscope
-                  itemtype="https://schema.org/Person"
                 >
                   <span
                     class="text-sm font-sans font-medium text-(--color-foreground)"
-                    itemprop="name"
                   >
                     {item.author}
                   </span>
