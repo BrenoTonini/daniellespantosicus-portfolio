@@ -28,6 +28,3 @@ pnpm-debug.log*
 
 # screenshots de QA visual
 .qa/
-
-#claude
-CLAUDE.md
