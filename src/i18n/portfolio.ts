@@ -162,17 +162,17 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
         {
           src: SammyPicnic,
           alt: 'Commission: Illustration of Johnny and Maria at a picnic under a tree by a lake',
-          title: 'Sammy, the picnic',
+          title: 'Johnny and Maria, the picnic',
         },
         {
           src: JennyDate,
           alt: 'Commission: Illustration of Johnny and Maria running hand in hand through sunlit woods',
-          title: 'Jenny, the date',
+          title: 'Johnny and Maria, the date',
         },
         {
           src: SammyPool,
           alt: 'Commission: Illustration of Johnny and Maria leaning over a pool table in a bar',
-          title: 'Sammy, the pool table',
+          title: 'Johnny and Maria, the pool table',
         },
         {
           src: TylerAndIvyHalfbody,
@@ -290,17 +290,17 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
         {
           src: SammyPicnic,
           alt: 'Comissão: Ilustração de Johnny e Maria em um piquenique sob uma árvore à beira de um lago',
-          title: 'Sammy, o piquenique',
+          title: 'Johnny and Maria, o piquenique',
         },
         {
           src: JennyDate,
           alt: 'Comissão: Ilustração de Johnny e Maria correndo de mãos dadas por uma mata ensolarada',
-          title: 'Jenny, o encontro',
+          title: 'Johnny and Maria, o encontro',
         },
         {
           src: SammyPool,
           alt: 'Comissão: Ilustração de Johnny e Maria debruçados sobre uma mesa de sinuca em um bar',
-          title: 'Sammy, a mesa de sinuca',
+          title: 'Johnny and Maria, a mesa de sinuca',
         },
         {
           src: TylerAndIvyHalfbody,
