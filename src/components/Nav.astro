@@ -1,70 +1,86 @@
 ---
 import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
 
+interface Props {
+    ariaLabel: string;
+    class?: string;
+}
+
+const { ariaLabel, class: className = '' } = Astro.props;
+
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const translatedPath = useTranslatedPath(lang);
 
 const pathname = Astro.url.pathname;
-const homePath = translatedPath('/');
-const aboutPath = translatedPath('/about');
-const portfolioPath = translatedPath('/portfolio');
 
-const isHomeActive = pathname === homePath || pathname === `${homePath}/`;
-const isAboutActive = pathname === aboutPath || pathname === `${aboutPath}/`;
-const isPortfolioActive = pathname === portfolioPath || pathname === `${portfolioPath}/`;
+const links = [
+    { key: 'nav.home', href: translatedPath('/') },
+    { key: 'nav.about', href: translatedPath('/about') },
+    { key: 'nav.portfolio', href: translatedPath('/portfolio') },
+] as const;
 
-const linkBase = [
-    'nav-link',
-    'relative flex h-full items-start px-3 pt-2 pb-3 text-sm font-medium no-underline transition-colors',
-    'after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:transition-colors',
-];
+const isActive = (href: string) =>
+    pathname === href || pathname === `${href}/` || `${pathname}/` === href;
 ---
 
-<nav class="flex h-full items-stretch gap-1 z-50">
-    <a 
-        href={homePath}
-        class:list={[
-            ...linkBase,
-            isHomeActive
-                ? 'after:bg-(--color-primary)'
-                : 'after:bg-transparent hover:after:bg-(--color-primary)/40'
-        ]}
-    >
-        {t('nav.home')}
-    </a>
-
-    <a 
-        href={aboutPath}
-        class:list={[
-            ...linkBase,
-            isAboutActive
-                ? 'after:bg-(--color-primary)'
-                : 'after:bg-transparent hover:after:bg-(--color-primary)/40'
-        ]}
-    >
-        {t('nav.about')}
-    </a>
-
-    <a 
-        href={portfolioPath}
-        class:list={[
-            ...linkBase,
-            isPortfolioActive
-                ? 'after:bg-(--color-primary)'
-                : 'after:bg-transparent hover:after:bg-(--color-primary)/40'
-        ]}
-    >
-        {t('nav.portfolio')}
-    </a>
+<nav aria-label={ariaLabel} class={`relative z-10 flex items-center gap-1 ${className}`}>
+    {links.map(({ key, href }) => (
+        <a
+            href={href}
+            aria-current={isActive(href) ? 'page' : undefined}
+            class="nav-link flex items-center px-3 py-3 text-sm font-medium no-underline transition-colors"
+        >
+            <span class="nav-label">{t(key)}</span>
+        </a>
+    ))}
 </nav>
+
 <style>
     .nav-link {
         color: var(--color-muted);
     }
 
     .nav-link:hover,
-    .nav-link[aria-current="page"] {
+    .nav-link:focus-visible,
+    .nav-link[aria-current='page'] {
         color: var(--color-foreground);
+    }
+
+    /* O sublinhado é ancorado no rótulo, não no <a>: assim o padding do link
+       continua dando 44px de área de toque sem afastar a barrinha da palavra. */
+    .nav-label {
+        position: relative;
+        display: inline-block;
+    }
+
+    .nav-label::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -0.375rem;
+        height: 2px;
+        background-color: var(--color-primary);
+        transform: scaleX(0);
+        transform-origin: left center;
+        transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .nav-link:hover .nav-label::after,
+    .nav-link:focus-visible .nav-label::after {
+        background-color: color-mix(in srgb, var(--color-primary) 45%, transparent);
+        transform: scaleX(1);
+    }
+
+    .nav-link[aria-current='page'] .nav-label::after {
+        background-color: var(--color-primary);
+        transform: scaleX(1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .nav-label::after {
+            transition: none;
+        }
     }
 </style>

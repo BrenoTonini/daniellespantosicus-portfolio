@@ -1,0 +1,78 @@
+---
+import VGenLogo from '../assets/icons/vgen-logo-outline.svg';
+import InstagramLogo from '../assets/icons/instagram-logo-outline.svg';
+import XLogo from '../assets/icons/x-logo-outline.svg';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+interface Props {
+    class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const socials = [
+    { href: 'https://vgen.co/Spantosicus_', icon: VGenLogo.src, key: 'socials.vgen' },
+    { href: 'https://www.instagram.com/spantosicus/', icon: InstagramLogo.src, key: 'socials.instagram' },
+    { href: 'https://x.com/Spantosicus_', icon: XLogo.src, key: 'socials.x' },
+] as const;
+---
+
+<ul class={`social-links ${className}`} aria-label={t('socials.ariaLabel')}>
+    {socials.map(({ href, icon, key }) => (
+        <li>
+            <a href={href} target="_blank" rel="noopener noreferrer" class="social-link">
+                <span class="sr-only">{t(key)}</span>
+                <span
+                    class="social-icon"
+                    style={`mask-image: url(${icon}); -webkit-mask-image: url(${icon});`}
+                    aria-hidden="true"
+                ></span>
+            </a>
+        </li>
+    ))}
+</ul>
+
+<style>
+    .social-links {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .social-icon {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        background-color: var(--color-muted);
+        mask-repeat: no-repeat;
+        mask-position: center;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        -webkit-mask-size: contain;
+        transition: background-color 150ms ease, transform 150ms ease;
+    }
+
+    .social-link {
+        opacity: 0.7;
+        display: inline-flex;
+        transition: opacity 150ms ease;
+    }
+
+    .social-link:hover,
+    .social-link:focus-visible {
+        opacity: 1;
+    }
+
+    .social-link:hover .social-icon,
+    .social-link:focus-visible .social-icon {
+        background-color: var(--color-primary);
+        transform: translateY(-1px);
+    }
+</style>

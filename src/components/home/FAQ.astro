@@ -4,12 +4,11 @@ import SectionHeading from './SectionHeading.astro';
 
 interface Props {
   content: HomeContent['faq'];
-  lang: string;
+
 }
 
-const { content, lang } = Astro.props;
+const { content } = Astro.props;
 
-// build FAQ structured data (JSON-LD) for SEO
 const faqStructuredData = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -25,14 +24,16 @@ const faqStructuredData = {
 ---
 
 <script
+  is:inline
   type="application/ld+json"
   set:html={JSON.stringify(faqStructuredData)}
 />
 
-<section class="py-24 lg:py-32 px-6 sm:px-10 lg:px-16" aria-label="FAQ">
+<section class="py-24 lg:py-32 px-6 sm:px-10 lg:px-16" aria-labelledby="faq-heading">
   <div class="max-w-7xl mx-auto">
 
     <SectionHeading
+      headingId="faq-heading"
       eyebrow={content.eyebrow}
       heading={content.heading}
       class="mb-14"

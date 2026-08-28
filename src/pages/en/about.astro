@@ -5,21 +5,19 @@ import AboutHero from '../../components/about/AboutHero.astro';
 import AboutText from '../../components/about/AboutText.astro';
 import { aboutContent } from '../../i18n/about';
 import PageLayout from '../../layouts/PageLayout.astro';
+import { buildPageUrls } from '../../lib/seo';
 
 const lang = 'en';
 const content = aboutContent[lang];
-const site = Astro.site ?? Astro.url.origin;
+const { canonicalURL, alternates } = buildPageUrls(Astro.site, Astro.url.origin, lang, '/about/');
 ---
 
 <PageLayout
 	title={content.seo.title}
 	description={content.seo.description}
 	lang={lang}
-	canonicalURL={`${site}/en/about/`}
-	alternates={[
-		{ lang: 'en', href: `${site}/en/about/` },
-		{ lang: 'pt-BR', href: `${site}/pt-br/about/` },
-	]}
+	canonicalURL={canonicalURL}
+	alternates={alternates}
 >
 	<AboutHero
 		image={content.hero.image}

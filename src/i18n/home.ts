@@ -9,33 +9,89 @@ import Chandler from '../assets/works/chandler.webp';
 
 import SupernaturalWendigo from '../assets/works/supernatural-wendigo.webp';
 
+/** Os três estágios da MESMA arte. Trocar um deles por outra peça
+  * quebra a leitura da seção de processo, que é a prancha se preenchendo. */
+import SupernaturalSketch from '../assets/process/supernatural-sketch.webp';
+import SupernaturalColor from '../assets/process/supernatural-color.webp';
+import SupernaturalFinal from '../assets/process/supernatural-final.webp';
+
+
+/** Fragmentos internos de ícone, no espaço de coordenadas 24x24 (Tabler
+  * Icons, outline). Sem atributos de traço: quem renderiza aplica `stroke`,
+  * `stroke-width` e `fill` no wrapper — é o que deixa o mesmo fragmento servir
+  * ao card em `currentColor` e ao ladrilho do Hero em preto. */
 const icons: Record<string, string> = {
   character: `
-    <circle cx="8" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
-    <path d="M3 14c0-2.8 2.2-4.5 5-4.5s5 1.7 5 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>`,
+    <path d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25" />
+    <path d="M7.5 10.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M11.5 7.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />
+    <path d="M15.5 10.5a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" />`,
 
   loop: `
-    <path d="M3.5 8a4.5 4.5 0 0 1 7.5-3.2L13 6M12.5 8a4.5 4.5 0 0 1-7.5 3.2L3 10" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M13 3.5V6h-2.5M3 12.5V10h2.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+    <path d="M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -12" />
+    <path d="M8 4l0 16" />
+    <path d="M16 4l0 16" />
+    <path d="M4 8l4 0" />
+    <path d="M4 16l4 0" />
+    <path d="M4 12l16 0" />
+    <path d="M16 8l4 0" />
+    <path d="M16 16l4 0" />`,
 
   fanart: `
-    <path d="M8 2l1.5 4.5H14l-3.8 2.8L11.7 14 8 11.3 4.3 14l1.5-4.7L2 6.5h4.5L8 2z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/>`,
+    <path d="M9.73 17.753l-5.23 -5.181a5 5 0 1 1 7.5 -6.566a5 5 0 0 1 8.563 5.041" />
+    <path d="M17.8 20.817l-2.172 1.138a.392 .392 0 0 1 -.568 -.41l.415 -2.411l-1.757 -1.707a.389 .389 0 0 1 .217 -.665l2.428 -.352l1.086 -2.193a.392 .392 0 0 1 .702 0l1.086 2.193l2.428 .352a.39 .39 0 0 1 .217 .665l-1.757 1.707l.414 2.41a.39 .39 0 0 1 -.567 .411l-2.172 -1.138" />`,
 
   oc: `
-    <circle cx="7" cy="6" r="2.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
-    <path d="M2.5 14c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <path d="M13 2l0.6 1.4L15 4l-1.4 0.6L13 6l-0.6-1.4L11 4l1.4-0.6L13 2z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/>`,
+    <path d="M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2m0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2m-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6" />`,
 
   vtuber: `
-    <rect x="2" y="5" width="10" height="8" rx="1.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
-    <path d="M12 8l3-2v6l-3-2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>`,
+    <path d="M17 14h-10a4 4 0 0 1 -4 -4a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4a4 4 0 0 1 -4 4" />
+    <path d="M15 14h-6v4h6v-4" />
+    <path d="M17 18h-10" />
+    <path d="M12 10.02v.01" />`,
 
   background: `
-    <path d="M13 10A6 6 0 0 1 6 4a6 6 0 1 0 7 6z" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linejoin="round"/>`,
+    <path d="M4 6a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2l0 -12" />
+    <path d="M4 16l16 0" />
+    <path d="M4 12l3 -3c.928 -.893 2.072 -.893 3 0l4 4" />
+    <path d="M13 12l2 -2c.928 -.893 2.072 -.893 3 0l2 2" />
+    <path d="M14 7l.01 0" />`,
+
+  /* Ícones da seção de processo — não entram em `serviceIcons` e portanto não
+     aparecem na trama do Hero. */
+
+  bulb: `
+    <path d="M3 12h1m8 -9v1m8 8h1m-15.4 -6.4l.7 .7m12.1 -.7l-.7 .7" />
+    <path d="M9 16a5 5 0 1 1 6 0a3.5 3.5 0 0 0 -1 3a2 2 0 0 1 -4 0a3.5 3.5 0 0 0 -1 -3" />
+    <path d="M9.7 17l4.6 0" />`,
+
+  messages: `
+    <path d="M21 14l-3 -3h-7a1 1 0 0 1 -1 -1v-6a1 1 0 0 1 1 -1h9a1 1 0 0 1 1 1v10" />
+    <path d="M14 15v2a1 1 0 0 1 -1 1h-7l-3 3v-10a1 1 0 0 1 1 -1h2" />`,
 };
 
+/** Ordem canônica dos ícones de serviço. O Hero usa a mesma lista para montar
+  * a trama do fundo, então a textura do site é o traço da artista. É uma lista
+  * explícita, e não `Object.values(icons)`: o mapa também guarda os ícones do
+  * processo, que não pertencem à trama. */
+export const serviceIcons = [
+  icons['character'],
+  icons['loop'],
+  icons['fanart'],
+  icons['oc'],
+  icons['vtuber'],
+  icons['background'],
+] as const;
+
+export type Lang = 'en' | 'pt-br';
+
+interface Seo {
+  title: string;
+  description: string;
+}
+
 interface FeaturedImageWork {
-  type?: never;
+  type?: 'image';
   src: ImageMetadata;
   alt: string;
   caption: string;
@@ -51,12 +107,117 @@ interface FeaturedVideoWork {
 
 export type FeaturedWork = FeaturedImageWork | FeaturedVideoWork;
 
-function defineWorks(works: FeaturedWork[]): FeaturedWork[] {
-  return works;
+interface Hero {
+  eyebrow: string;
+  heading: string;
+  subheading: string;
+  ctaPrimary: string;
+  ctaSecondary: string;
+  ctaPrimaryHref: string;
+  ctaSecondaryHref: string;
+  bannerImage: ImageMetadata;
+  imageAlt: string;
+  scrollHint: string;
 }
 
-export const homeContent = {
+interface Featured {
+  eyebrow: string;
+  heading: string;
+  body: string;
+  cta: string;
+  ctaHref: string;
+  works: FeaturedWork[];
+}
+
+interface Services {
+  eyebrow: string;
+  heading: string;
+  body: string;
+  items: { title: string; description: string; icon: string }[];
+}
+
+interface ProcessStepBase {
+  number: string;
+  title: string;
+  description: string;
+}
+
+interface ProcessArtStep extends ProcessStepBase {
+  image: ImageMetadata;
+  imageAlt: string;
+  icon?: never;
+}
+
+/** As etapas 01 e 02 são ideia e conversa: não produzem arte, e a prancha
+  * recebe um ícone decorativo — o sentido está no título. */
+interface ProcessMarkStep extends ProcessStepBase {
+  icon: string;
+  image?: never;
+  imageAlt?: never;
+}
+
+/** São os `?: never` acima que tornam a união exclusiva, e é isso que fecha
+  * dois furos no typecheck: prancha sem conteúdo e imagem sem nome acessível. */
+type ProcessStep = ProcessArtStep | ProcessMarkStep;
+
+interface Process {
+  eyebrow: string;
+  heading: string;
+  body: string;
+  steps: ProcessStep[];
+}
+
+interface AboutTeaser {
+  eyebrow: string;
+  heading: string;
+  body: string;
+  cta: string;
+  ctaHref: string;
+  parallaxImage: ImageMetadata;
+  imageAlt: string;
+}
+
+interface Testimonials {
+  eyebrow: string;
+  heading: string;
+  items: { quote: string; author: string; context: string }[];
+}
+
+interface Faq {
+  eyebrow: string;
+  heading: string;
+  items: { question: string; answer: string }[];
+}
+
+interface FinalCta {
+  heading: string;
+  body: string;
+  ctaPrimary: string;
+  ctaSecondary: string;
+  ctaPrimaryHref: string;
+  ctaSecondaryHref: string;
+}
+
+export interface HomeContent {
+  seo: Seo;
+  hero: Hero;
+  featured: Featured;
+  services: Services;
+  process: Process;
+  about: AboutTeaser;
+  testimonials: Testimonials;
+  faq: Faq;
+  finalCta: FinalCta;
+}
+
+export const homeContent: Record<Lang, HomeContent> = {
   "en": {
+    seo: {
+      title: "Danielle Spantosicus — Digital Artist & Character Illustrator",
+      description:
+        "Custom digital art and character illustrations by Danielle Spantosicus. Open for commissions — characters, portraits, fanart, VTuber art, and more.",
+    },
+
     hero: {
       eyebrow: "Digital Artist & Illustrator",
       heading: "Custom Digital Art & Character Illustrations",
@@ -76,7 +237,7 @@ export const homeContent = {
       body: "Here are some of my personal creations. To see more of my projects, visit my portfolio!",
       cta: "Browse Full Portfolio",
       ctaHref: "/en/portfolio",
-      works: defineWorks([
+      works: [
         {
           src: DeanWinchester,
           alt: 'Dean Winchester fan art illustration — character portrait from Supernatural',
@@ -119,7 +280,7 @@ export const homeContent = {
           alt: 'Dean Winchester and Castiel fan art illustration — Supernatural character portrait',
           caption: 'Dean & Castiel',
         },
-      ])
+      ],
     },
 
     services: {
@@ -176,30 +337,41 @@ export const homeContent = {
           title: "Send Your Idea",
           description:
             "Fill out the commission form or reach out directly. Share your concept, references, and any specific requirements.",
+          icon: icons["bulb"],
         },
         {
           number: "02",
           title: "Discuss the Details",
           description:
             "We'll align on the scope, style, timeline, and pricing before any work begins.",
+          icon: icons["messages"],
         },
         {
           number: "03",
           title: "Sketch Approval",
           description:
             "You'll review an initial sketch and request adjustments before I move to the final rendering.",
+          image: SupernaturalSketch,
+          imageAlt:
+            "Sketch stage of a Supernatural fan art illustration — Dean and Sam Winchester in loose teal linework, seen from above",
         },
         {
           number: "04",
           title: "Final Rendering",
           description:
             "With the sketch approved, I craft the full illustration with colors, lighting, and all details.",
+          image: SupernaturalColor,
+          imageAlt:
+            "Rendering stage of the same illustration — the sketch filled in with color, shading and lighting",
         },
         {
           number: "05",
           title: "Delivery",
           description:
             "You receive the final high-resolution files, ready to use however you'd like.",
+          image: SupernaturalFinal,
+          imageAlt:
+            "Final stage of the same illustration — Dean and Sam Winchester against a smoke and ember background, signed by Danielle Spantosicus",
         },
       ],
     },
@@ -299,6 +471,12 @@ export const homeContent = {
   },
 
   "pt-br": {
+    seo: {
+      title: "Danielle Spantosicus — Artista Digital e Ilustradora de Personagens",
+      description:
+        "Ilustrações digitais personalizadas e arte de personagens por Danielle Spantosicus. Aberta para comissões - personagens, retratos, fanart, arte para VTubers e mais.",
+    },
+
     hero: {
       eyebrow: "Artista Digital & Ilustradora",
       heading: "Arte Digital e Ilustrações de Personagens Personalizados",
@@ -319,7 +497,7 @@ export const homeContent = {
       body: "Aqui estão algumas das minhas criações pessoais. Para ver mais projetos, visite meu portfólio!",
       cta: "Ver Portfólio Completo",
       ctaHref: "/pt-br/portfolio",
-      works: defineWorks([
+      works: [
         {
           src: DeanWinchester,
           alt: 'Ilustração fan art do Dean Winchester — retrato do personagem de Supernatural',
@@ -362,7 +540,7 @@ export const homeContent = {
           alt: 'Ilustração fan art de Dean Winchester e Castiel — retrato dos personagens de Supernatural',
           caption: 'Dean & Castiel',
         },
-      ])
+      ],
     },
 
     services: {
@@ -418,30 +596,41 @@ export const homeContent = {
           title: "Envie Sua Ideia",
           description:
             "Preencha o formulário de comissão ou entre em contato direto. Compartilhe seu conceito, referências e requisitos.",
+          icon: icons["bulb"],
         },
         {
           number: "02",
           title: "Alinhamento",
           description:
             "Definimos escopo, estilo, prazo e preço antes de iniciar.",
+          icon: icons["messages"],
         },
         {
           number: "03",
           title: "Aprovação do Esboço",
           description:
             "Você revisa o esboço inicial e pode solicitar ajustes antes da renderização final.",
+          image: SupernaturalSketch,
+          imageAlt:
+            "Etapa de esboço de uma ilustração fan art de Supernatural — Dean e Sam Winchester em traço solto verde-azulado, vistos de cima",
         },
         {
           number: "04",
           title: "Renderização Final",
           description:
             "Com o esboço aprovado, finalizo a arte com cores, iluminação e todos os detalhes.",
+          image: SupernaturalColor,
+          imageAlt:
+            "Etapa de renderização da mesma ilustração — o esboço preenchido com cor, sombreamento e iluminação",
         },
         {
           number: "05",
           title: "Entrega",
           description:
             "Você recebe os arquivos finais em alta resolução, prontos para uso.",
+          image: SupernaturalFinal,
+          imageAlt:
+            "Etapa final da mesma ilustração — Dean e Sam Winchester sobre fundo de fumaça e brasas, assinada por Danielle Spantosicus",
         },
       ],
     },
@@ -539,7 +728,4 @@ export const homeContent = {
       ctaSecondaryHref: "/pt-br/portfolio",
     },
   },
-} as const;
-
-export type HomeContent = (typeof homeContent)["en"];
-export type Lang = keyof typeof homeContent;
+};

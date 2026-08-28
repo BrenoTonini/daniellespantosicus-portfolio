@@ -1,48 +1,37 @@
 @import 'tailwindcss';
 
-/* ─── Design tokens globais ─────────────────────────── */
+/* ─── Design tokens globais ─────────────────────────────
+   A Fase 2 (docs/REDESIGN.md §25) migra isto para `@theme` do Tailwind 4, para
+   os tokens gerarem utilities reais (`bg-surface`) em vez da sintaxe de valor
+   arbitrário `bg-(--color-surface)` usada hoje em todos os componentes.
+   ───────────────────────────────────────────────────────── */
 :root {
+	/* Superfícies */
 	--color-background: #141411;
-    --color-surface: #1d1818;
-    --color-surface-alt: #261f1f;
+	--color-surface: #1d1818;
+	--color-surface-alt: #261f1f;
 
-    --color-foreground: #f3e7e4;
-    --color-muted: #b8a7a4;
-    --color-muted-soft: #948181;
+	/* Texto */
+	--color-foreground: #f3e7e4;
+	--color-foreground-muted: #b8a7a4;
+	--color-muted: #b8a7a4;
+	--color-muted-soft: #948181;
 
-    --color-primary: #c4826c;
-    --color-primary-dark: #8c5042;
-    --color-primary-soft: #5c3d37;
+	/* Primária */
+	--color-primary: #c4826c;
+	--color-primary-dark: #8c5042;
+	--color-primary-soft: #5c3d37;
+	--color-primary-pale: #45332e; /* hairlines e divisórias */
 
 	--color-sparkle: #3d0c0c;
 
-    --color-border: #3a2c2c;
+	/* Bordas */
+	--color-border: #3a2c2c;
+	--color-border-hover: #5c4340;
 
-	/* Typography */
+	/* Tipografia */
 	--font-display: 'Cormorant Garamond', Georgia, serif;
-	--font-sans:    'DM Sans', sans-serif;
-
-	/* Icons */
-	--color-header-icon: var(--color-foreground);
-	--color-header-icon-muted: var(--color-muted);
-	--color-header-icon-hover: var(--color-primary);
-}
-
-/* ─── Fontes ─────────────────────────────────────────── */
-@font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-regular.woff") format("woff");
-	font-weight: 400;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: "Atkinson";
-	src: url("/fonts/atkinson-bold.woff") format("woff");
-	font-weight: 700;
-	font-style: normal;
-	font-display: swap;
+	--font-sans: 'DM Sans', sans-serif;
 }
 
 /* ─── Reset mínimo ───────────────────────────────────── */
@@ -50,6 +39,10 @@
 *::before,
 *::after {
 	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
 }
 
 body {
@@ -60,6 +53,31 @@ body {
 	-webkit-font-smoothing: antialiased;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
+}
+
+/* ─── Famílias tipográficas ──────────────────────────────
+   Precisam viver aqui, não no <style> de um layout: estilos de componente do
+   Astro são escopados por `data-astro-cid-*`, e uma regra em PageLayout.astro
+   não alcança os componentes filhos — que são justamente quem as usa.
+   ───────────────────────────────────────────────────────── */
+.font-display {
+	font-family: var(--font-display);
+}
+
+.font-sans {
+	font-family: var(--font-sans);
+}
+
+/* ─── Textura ────────────────────────────────────────────
+   Mesmo motivo de escopo: consumida por Hero.astro e FinalCTA.astro.
+   ───────────────────────────────────────────────────────── */
+.grain-overlay {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	opacity: 0.025;
+	background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+	background-size: 200px;
 }
 
 /* ─── Acessibilidade ─────────────────────────────────── */
@@ -74,112 +92,4 @@ body {
 	clip: rect(1px, 1px, 1px, 1px);
 	clip-path: inset(50%);
 	white-space: nowrap;
-}
-
-/* ─── Prose (só para páginas de blog/texto longo) ────── */
-.prose {
-	font-family: "Atkinson", sans-serif;
-	font-size: 20px;
-	line-height: 1.7;
-	color: var(--color-foreground);
-	max-width: 720px;
-	margin-inline: auto;
-	padding: 3em 1em;
-}
-
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6 {
-	margin: 0 0 0.5rem 0;
-	line-height: 1.2;
-}
-
-.prose h1 {
-	font-size: 3.052em;
-}
-
-.prose h2 {
-	font-size: 2.441em;
-}
-
-.prose h3 {
-	font-size: 1.953em;
-}
-
-.prose h4 {
-	font-size: 1.563em;
-}
-
-.prose h5 {
-	font-size: 1.25em;
-}
-
-.prose a {
-	color: var(--accent);
-}
-
-.prose a:hover {
-	color: var(--accent-dark);
-}
-
-.prose p {
-	margin-bottom: 1em;
-}
-
-.prose p+p {
-	margin-bottom: 2em;
-}
-
-.prose img {
-	border-radius: 8px;
-}
-
-.prose blockquote {
-	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0;
-	font-size: 1.333em;
-}
-
-.prose hr {
-	border: none;
-	border-top: 1px solid var(--color-border);
-}
-
-.prose code {
-	padding: 2px 5px;
-	background-color: var(--color-surface-alt);
-	border-radius: 2px;
-}
-
-.prose pre {
-	padding: 1.5em;
-	border-radius: 8px;
-}
-
-.prose pre>code {
-	all: unset;
-}
-
-.prose textarea {
-	width: 100%;
-	font-size: 16px;
-}
-
-.prose input {
-	font-size: 16px;
-}
-
-.prose table {
-	width: 100%;
-}
-
-@media (max-width: 720px) {
-	.prose {
-		font-size: 18px;
-		padding: 1em;
-	}
 }

@@ -44,6 +44,7 @@ interface PortfolioVideoItem {
 export type PortfolioItem = PortfolioImageItem | PortfolioVideoItem;
 
 interface PortfolioGallery {
+  ariaLabel: string;
   items: PortfolioItem[];
 }
 
@@ -68,6 +69,7 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
         'A selection of works focusing on details, a space where the art speaks for itself.',
     },
     gallery: {
+      ariaLabel: 'Gallery of illustrations by Danielle Spantosicus',
       items: [
         {
           src: DeanWinchester,
@@ -155,6 +157,7 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
         'Uma seleção de trabalhos focando nos detalhes, um espaço onde a arte fala por si só.',
     },
     gallery: {
+      ariaLabel: 'Galeria de ilustrações de Danielle Spantosicus',
       items: [
         {
           src: DeanWinchester,

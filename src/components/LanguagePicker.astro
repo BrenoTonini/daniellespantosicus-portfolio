@@ -1,8 +1,9 @@
 ---
 import { languages } from '../i18n/ui';
-import { getLangFromUrl, getPathForLang } from '../i18n/utils';
+import { getLangFromUrl, getPathForLang, useTranslations } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 const url = Astro.url;
 
 const options = Object.entries(languages).map(([code, label]) => ({
@@ -16,10 +17,10 @@ const options = Object.entries(languages).map(([code, label]) => ({
 <div class="lang-picker">
     <select
         id="language-select"
-        aria-label="Selecionar idioma"
+        aria-label={t('langPicker.ariaLabel')}
         class="lang-select"
     >
-        {options.map(({ code, label, href, current }) => (
+        {options.map(({ code, href, current }) => (
             <option value={href} selected={current}>{code.toUpperCase()}</option>
         ))}
     </select>

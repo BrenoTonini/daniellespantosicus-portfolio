@@ -25,3 +25,9 @@ pnpm-debug.log*
 
 .vercel
 .env*.local
+
+# screenshots de QA visual
+.qa/
+
+#claude
+CLAUDE.md

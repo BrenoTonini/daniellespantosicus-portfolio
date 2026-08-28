@@ -10,7 +10,7 @@ const { content } = Astro.props;
 
 <section
   class="relative py-32 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden"
-  aria-label="Call to action"
+  aria-labelledby="final-cta-heading"
 >
   <div class="grain-overlay" aria-hidden="true"></div>
   <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -25,7 +25,7 @@ const { content } = Astro.props;
       <div class="w-12 h-px bg-(--color-primary-soft)"></div>
     </div>
 
-    <h2 class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-(--color-foreground) leading-[1.05] font-normal">
+    <h2 id="final-cta-heading" class="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-(--color-foreground) leading-[1.05] font-normal">
       {content.heading}
     </h2>
 

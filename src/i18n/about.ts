@@ -1,6 +1,16 @@
-﻿import AboutHeroImage from "../assets/works/dean-winchester.webp";
+﻿import type { ImageMetadata } from 'astro';
+import AboutHeroImage from "../assets/works/dean-winchester.webp";
 
-export const aboutContent = {
+export type AboutLang = 'en' | 'pt-br';
+
+export interface AboutContent {
+  seo: { title: string; description: string };
+  hero: { image: ImageMetadata; imageAlt: string };
+  story: { title: string; paragraphs: string[] };
+}
+
+
+export const aboutContent: Record<AboutLang, AboutContent> = {
   en: {
     seo: {
       title: "About Danielle Spantosicus | Digital Artist",
@@ -47,7 +57,4 @@ export const aboutContent = {
       ],
     },
   },
-} as const;
-
-export type AboutContent = (typeof aboutContent)["en"];
-export type AboutLang = keyof typeof aboutContent;
+};

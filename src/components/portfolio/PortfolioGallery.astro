@@ -9,7 +9,7 @@ interface Props {
 const { content } = Astro.props;
 ---
 
-<section class="w-full pb-20 sm:pb-24 lg:pb-32" aria-label="Portfolio gallery">
+<section class="w-full pb-20 sm:pb-24 lg:pb-32" aria-label={content.ariaLabel}>
   <div class="w-full">
     <div class="columns-2 gap-x-3 lg:columns-3">
       {content.items.map((item) => (

@@ -2,6 +2,7 @@
 export const prerender = true;
 
 import PageLayout from "../../layouts/PageLayout.astro";
+import { buildPageUrls } from "../../lib/seo";
 import { homeContent } from "../../i18n/home";
 import Hero from "../../components/home/Hero.astro";
 import FeaturedWorks from "../../components/home/FeaturedWorks.astro";
@@ -14,25 +15,22 @@ import FinalCTA from "../../components/home/FinalCTA.astro";
 
 const lang = "pt-br";
 const content = homeContent[lang];
-const site = Astro.site ?? Astro.url.origin;
+const { canonicalURL, alternates } = buildPageUrls(Astro.site, Astro.url.origin, lang, "/");
 ---
 
 <PageLayout
-	title="Danielle Spantosicus — Artista Digital e Ilustradora de Personagens"
-	description="Ilustrações digitais personalizadas e arte de personagens por Danielle Spantosicus. Aberta para comissões - personagens, retratos, fanart, arte para VTubers e mais."
+	title={content.seo.title}
+	description={content.seo.description}
 	lang={lang}
-	canonicalURL={`${site}/pt-br/`}
-	alternates={[
-		{ lang: "en", href: `${site}/en/` },
-		{ lang: "pt-BR", href: `${site}/pt-br/` },
-	]}
+	canonicalURL={canonicalURL}
+	alternates={alternates}
 >
-	<Hero content={content.hero as any} />
-	<FeaturedWorks content={content.featured as any} />
-	<Services content={content.services as any} />
-	<Process content={content.process as any} />
-	<AboutTeaser content={content.about as any} />
-	<Testimonials content={content.testimonials as any} />
-	<FAQ content={content.faq as any} lang={lang} />
-	<FinalCTA content={content.finalCta as any} />
+	<Hero content={content.hero} />
+	<FeaturedWorks content={content.featured} />
+	<Services content={content.services} />
+	<Process content={content.process} />
+	<AboutTeaser content={content.about} />
+	<Testimonials content={content.testimonials} />
+	<FAQ content={content.faq} />
+	<FinalCTA content={content.finalCta} />
 </PageLayout>

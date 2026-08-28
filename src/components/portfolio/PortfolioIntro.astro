@@ -8,9 +8,9 @@ interface Props {
 const { content } = Astro.props;
 ---
 
-<section class="w-full pb-12 pt-16 sm:pb-14 sm:pt-20 lg:pb-16 lg:pt-24" aria-label="Portfolio intro">
+<section class="w-full pb-12 pt-16 sm:pb-14 sm:pt-20 lg:pb-16 lg:pt-24" aria-labelledby="portfolio-heading">
   <div class="w-full">
-    <h1 class="font-display text-5xl leading-[1.05] text-(--color-foreground) sm:text-6xl lg:text-7xl text-center">
+    <h1 id="portfolio-heading" class="font-display text-5xl leading-[1.05] text-(--color-foreground) sm:text-6xl lg:text-7xl text-center">
       {content.heading}
     </h1>
     <p class="mt-5 text-center font-sans text-base leading-relaxed text-(--color-foreground-muted) sm:text-lg">

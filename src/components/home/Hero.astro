@@ -1,37 +1,97 @@
 ---
 import type { HomeContent } from '../../i18n/home';
-import { Image } from 'astro:assets';
+import { serviceIcons } from '../../i18n/home';
+import { Image, getImage } from 'astro:assets';
 
 interface Props {
   content: HomeContent['hero'];
 }
 
 const { content } = Astro.props;
+
+// Background CSS em vez de <img>: um <img> dentro de `display:none` é baixado
+// de qualquer forma, e o desktop nunca mostra esta arte (~85 KB à toa).
+const artMobile = await getImage({ src: content.bannerImage, width: 1024, format: 'webp' });
+
+const CELL = 26;
+const COLS = serviceIcons.length;
+const ROWS = 2;
+
+// Tira a leitura de grade da trama. Os limites (±10°, ±1.5px abaixo) cabem na
+// folga de 5px da célula, então nenhum ícone encosta na borda do ladrilho.
+const jitter = (seed: number) => {
+  const x = Math.sin(seed * 12.9898) * 43758.5453;
+  return (x - Math.floor(x)) * 2 - 1;
+};
+
+const cells = Array.from({ length: ROWS }, (_, row) =>
+  serviceIcons
+    // Fileira rotacionada, para vizinhos verticais não repetirem.
+    .map((_, col) => serviceIcons[(col + row * 3) % COLS])
+    .map((icon, col) => {
+      const seed = row * COLS + col;
+      const x = (col * CELL + 5 + jitter(seed + 11) * 1.5).toFixed(2);
+      const y = (row * CELL + 5 + jitter(seed + 29) * 1.5).toFixed(2);
+      const rot = (jitter(seed + 3) * 10).toFixed(2);
+      // Os fragmentos vivem em 24x24; `scale` os traz para as 16 unidades que
+      // a célula de 26 reserva, e a rotação gira em torno do centro do ícone.
+      return (
+        `<g transform="translate(${x} ${y}) scale(${(16 / 24).toFixed(4)}) rotate(${rot} 12 12)" ` +
+        `fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">` +
+        `${icon}</g>`
+      );
+    })
+    .join(''),
+).join('');
+
+const tileSvg =
+  `<svg xmlns="http://www.w3.org/2000/svg" width="${COLS * CELL}" height="${ROWS * CELL}" ` +
+  `viewBox="0 0 ${COLS * CELL} ${ROWS * CELL}">${cells}</svg>`;
+
+// Escapa só o necessário dentro de `url("...")`. `encodeURIComponent` também
+// funcionaria, mas escapa aspas, espaços e barras à toa e infla o URI em ~30%.
+const encodeSvg = (svg: string) =>
+  svg
+    // Obrigatório: os fragmentos em home.ts são multilinha, e uma quebra de
+    // linha dentro de `url("...")` é erro de parse no CSS.
+    .replace(/\s+/g, ' ')
+    .replace(/"/g, "'")
+    .replace(/</g, '%3C')
+    .replace(/>/g, '%3E')
+    .replace(/#/g, '%23');
+
+const tile = `url("data:image/svg+xml,${encodeSvg(tileSvg)}")`;
+
+// O script desloca a trama em múltiplos exatos do ladrilho, então precisa
+// destes números em px.
+const TILE_W = 152;
+const TILE_H = Math.round(((TILE_W * ROWS) / COLS) * 1000) / 1000;
 ---
 
 <section
-  class="relative min-h-[calc(100svh-8rem)] overflow-hidden flex flex-col"
-  aria-label="Hero"
+  class="hero relative min-h-[calc(100svh-8rem)] overflow-hidden flex flex-col"
+  aria-labelledby="hero-heading"
+  data-hero
 >
-  <div class="grain-overlay" aria-hidden="true"></div>
+  <div class="hero-light" aria-hidden="true"></div>
 
-  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
-    <div class="absolute top-[-10%] right-[-5%] w-[55vw] h-[55vw] max-w-3xl rounded-full bg-(--color-sparkle) opacity-60 blur-3xl"></div>
-    <div class="absolute bottom-[-5%] left-[-8%] w-[30vw] h-[30vw] rounded-full bg-(--color-primary-pale) opacity-40 blur-2xl"></div>
+  <div
+    class="hero-art-mobile lg:hidden"
+    style={`--art: url("${artMobile.src}")`}
+    aria-hidden="true"
+  ></div>
+
+  <div class="hero-pattern" aria-hidden="true">
+    <div class="hero-lens" data-hero-lens>
+      <div
+        class="hero-pattern-tile"
+        data-hero-tile
+        style={`--tile: ${tile}; --tile-w: ${TILE_W}px; --tile-h: ${TILE_H}px`}
+      ></div>
+    </div>
   </div>
 
-  <figure class="lg:hidden absolute inset-0 pointer-events-none" aria-hidden="true">
-    <Image
-      src={content.bannerImage}
-      alt={content.imageAlt}
-      class="w-full h-full object-cover object-[center_15%] opacity-20"
-      widths={[640, 960]}
-      sizes="100vw"
-      loading="eager"
-      format="webp"
-    />
-    <div class="absolute inset-0 bg-linear-to-b from-(--color-background)/20 via-transparent via-40% to-(--color-background)"></div>
-  </figure>
+  <div class="grain-overlay" aria-hidden="true"></div>
 
   <div class="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 flex-1 flex items-center py-24 lg:py-32">
     <div class="w-full grid lg:grid-cols-[1fr_auto] gap-16 lg:gap-24 items-center">
@@ -41,7 +101,7 @@ const { content } = Astro.props;
           {content.eyebrow}
         </span>
 
-        <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl text-(--color-foreground) leading-[1.05] font-normal">
+        <h1 id="hero-heading" class="font-display text-4xl sm:text-6xl lg:text-7xl text-(--color-foreground) leading-[1.05] font-normal">
           {content.heading}
         </h1>
 
@@ -70,15 +130,16 @@ const { content } = Astro.props;
         </div>
       </div>
 
-      <figure class="relative hidden lg:block w-105 xl:w-120 shrink-0">
-        <div class="absolute -top-4 -right-4 w-full h-full border border-(--color-primary-pale)" aria-hidden="true"></div>
+      <figure class="hero-plate relative hidden lg:block w-105 xl:w-120 shrink-0">
+        <div class="hero-frame absolute -top-4 -right-4 w-full h-full border border-(--color-primary-pale)" aria-hidden="true"></div>
         <Image
           src={content.bannerImage}
           alt={content.imageAlt}
-          class="relative z-10 w-full h-auto object-cover"
+          class="relative z-10 block w-full h-auto object-cover"
           widths={[480, 960]}
           sizes="480px"
           loading="eager"
+          fetchpriority="high"
           format="webp"
         />
       </figure>
@@ -92,3 +153,215 @@ const { content } = Astro.props;
   </div>
 
 </section>
+
+<style>
+  /* Gradientes estáticos em vez de blobs com `blur-3xl`: mesmo brilho, sem
+     filtro de blur sobre superfícies de 55vw. */
+  .hero-light {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        60% 55% at 92% 6%,
+        color-mix(in srgb, var(--color-sparkle) 90%, transparent) 0%,
+        transparent 72%
+      ),
+      radial-gradient(
+        36% 32% at 2% 98%,
+        color-mix(in srgb, var(--color-primary-pale) 60%, transparent) 0%,
+        transparent 70%
+      );
+  }
+
+  /* Duas camadas para a opacidade da arte não vazar para o degradê:
+     `::before` é a ilustração, `::after` a transição para a cor de fundo. */
+  .hero-art-mobile {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .hero-art-mobile::before,
+  .hero-art-mobile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-art-mobile::before {
+    background-image: var(--art);
+    background-position: center 15%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    opacity: 0.2;
+  }
+
+  .hero-art-mobile::after {
+    background-image: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--color-background) 20%, transparent) 0%,
+      transparent 40%,
+      var(--color-background) 100%
+    );
+  }
+
+  /* A trama de ícones, revelada por uma lente de duas transformações:
+     `.hero-lens` leva uma máscara estática até o ponteiro, e a trama
+     contra-move pelo resto da divisão da posição pelo ladrilho — invisível,
+     porque o ladrilho é perfeito, e o padrão parece cravado na seção.
+
+     Nada aqui muda de máscara durante o movimento, só `transform`. Mover o
+     centro de um `radial-gradient` de máscara custava 8ms/frame a 4x de
+     throttle (docs/BASELINE.md); isto custa 2.2ms, tudo no compositor. */
+  .hero-pattern {
+    display: none;
+  }
+
+  /* Sem cursor a trama só poderia ficar sempre ligada, o que suja a arte no
+     mobile — então em tela pequena ou em toque ela não existe. */
+  @media (min-width: 64rem) and (hover: hover) and (pointer: fine) {
+    .hero-pattern {
+      display: block;
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 400ms ease;
+    }
+
+    .hero.is-live .hero-pattern {
+      opacity: 0.38;
+    }
+  }
+
+  /* Sem `transform` de propósito: quem escreve é o script, inline, por frame. */
+  .hero-lens {
+    --radius: 17rem;
+
+    position: absolute;
+    top: calc(-1 * var(--radius));
+    left: calc(-1 * var(--radius));
+    width: calc(2 * var(--radius));
+    height: calc(2 * var(--radius));
+    overflow: hidden;
+    will-change: transform;
+    mask-image: radial-gradient(closest-side, #000 0%, #000 30%, transparent 78%);
+    mask-repeat: no-repeat;
+    -webkit-mask-image: radial-gradient(closest-side, #000 0%, #000 30%, transparent 78%);
+    -webkit-mask-repeat: no-repeat;
+  }
+
+  /* Sobra de um ladrilho para cada lado, para a lente nunca ver uma borda. */
+  .hero-pattern-tile {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% + 2 * var(--tile-w));
+    height: calc(100% + 2 * var(--tile-h));
+    background-color: var(--color-primary);
+    will-change: transform;
+    mask-image: var(--tile);
+    mask-size: var(--tile-w) var(--tile-h);
+    mask-repeat: repeat;
+    -webkit-mask-image: var(--tile);
+    -webkit-mask-size: var(--tile-w) var(--tile-h);
+    -webkit-mask-repeat: repeat;
+  }
+
+
+  /* A trama fica atrás da ilustração, então a placa dá o próprio retorno ao
+     hover: a moldura se abre um pouco mais, sem textura sobre o desenho. */
+  .hero-frame {
+    transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hero-plate:hover .hero-frame {
+      transform: translate(0.5rem, -0.5rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-pattern,
+    .hero-frame {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  const lens = document.querySelector<HTMLElement>('[data-hero-lens]');
+  const tile = document.querySelector<HTMLElement>('[data-hero-tile]');
+
+  if (hero && lens && tile) {
+    // Mesma condição do CSS, consultada por evento para acompanhar resize e
+    // troca de dispositivo de entrada.
+    const active = window.matchMedia(
+      '(min-width: 64rem) and (hover: hover) and (pointer: fine)',
+    );
+
+    const tileStyle = getComputedStyle(tile);
+    const tileW = parseFloat(tileStyle.getPropertyValue('--tile-w')) || 1;
+    const tileH = parseFloat(tileStyle.getPropertyValue('--tile-h')) || 1;
+
+    // Resto sempre positivo: `%` em JS mantém o sinal do operando, e um
+    // deslocamento positivo deixaria a lente vendo além da sobra do ladrilho.
+    const wrap = (value: number, size: number) => -(((value % size) + size) % size);
+
+    let frame = 0;
+    let clientX = 0;
+    let clientY = 0;
+
+    // Lido no máximo uma vez por frame, nunca no handler: `pointermove` dispara
+    // na taxa de polling do mouse (125–1000 Hz), e um getBoundingClientRect por
+    // evento viraria centenas de leituras de layout por segundo.
+    let rect: DOMRect | null = null;
+    const invalidate = () => {
+      rect = null;
+    };
+    window.addEventListener('resize', invalidate, { passive: true });
+    window.addEventListener('scroll', invalidate, { passive: true });
+
+    const apply = () => {
+      frame = 0;
+      if (!rect) rect = hero.getBoundingClientRect();
+
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+
+      // Direto em `transform`, não via custom property: mudar uma propriedade
+      // customizada recompõe o estilo do elemento e dos descendentes que a
+      // herdam. Sozinho, isto cortou o custo de estilo pela metade.
+      lens.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      tile.style.transform = `translate3d(${wrap(x, tileW)}px, ${wrap(y, tileH)}px, 0)`;
+    };
+
+    hero.addEventListener('pointerenter', (event) => {
+      if (!active.matches) return;
+      // Posiciona antes de acender, senão o fade começa com a lente no canto.
+      clientX = event.clientX;
+      clientY = event.clientY;
+      apply();
+      hero.classList.add('is-live');
+    });
+    hero.addEventListener('pointerleave', () => hero.classList.remove('is-live'));
+
+    active.addEventListener('change', () => {
+      if (!active.matches) hero.classList.remove('is-live');
+    });
+
+    hero.addEventListener(
+      'pointermove',
+      (event) => {
+        if (!active.matches) return;
+        clientX = event.clientX;
+        clientY = event.clientY;
+        if (!frame) frame = requestAnimationFrame(apply);
+      },
+      { passive: true },
+    );
+  }
+</script>

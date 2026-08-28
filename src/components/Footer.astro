@@ -1,38 +1,15 @@
-﻿---
-import VGenLogo from '../assets/icons/vgen-logo-outline.svg';
-import InstagramLogo from '../assets/icons/instagram-logo-outline.svg';
-import XLogo from '../assets/icons/x-logo-outline.svg';
+---
+import SocialLinks from './SocialLinks.astro';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const today = new Date();
-const copyright = t('footer.copyright').replace('{year}', String(today.getFullYear()));
+const copyright = t('footer.copyright').replace('{year}', String(new Date().getFullYear()));
 ---
 
 <footer>
     <p class="copyright">{copyright}</p>
-
-    <ul class="social-links" aria-label={t('footer.socials.ariaLabel')}>
-        <li>
-            <a href="https://vgen.co/Spantosicus_" target="_blank" rel="noopener noreferrer" class="social-link">
-                <span class="sr-only">{t('footer.socials.vgen')}</span>
-                <span class="social-icon" style={`mask-image: url(${VGenLogo.src}); -webkit-mask-image: url(${VGenLogo.src});`} aria-hidden="true"></span>
-            </a>
-        </li>
-        <li>
-            <a href="https://www.instagram.com/spantosicus/" target="_blank" rel="noopener noreferrer" class="social-link">
-                <span class="sr-only">{t('footer.socials.instagram')}</span>
-                <span class="social-icon" style={`mask-image: url(${InstagramLogo.src}); -webkit-mask-image: url(${InstagramLogo.src});`} aria-hidden="true"></span>
-            </a>
-        </li>
-        <li>
-            <a href="https://x.com/Spantosicus_" target="_blank" rel="noopener noreferrer" class="social-link">
-                <span class="sr-only">{t('footer.socials.x')}</span>
-                <span class="social-icon" style={`mask-image: url(${XLogo.src}); -webkit-mask-image: url(${XLogo.src});`} aria-hidden="true"></span>
-            </a>
-        </li>
-    </ul>
+    <SocialLinks class="justify-center" />
 </footer>
 
 <style>
@@ -47,45 +24,5 @@ const copyright = t('footer.copyright').replace('{year}', String(today.getFullYe
         margin: 0 0 1em;
         color: var(--color-muted);
         font-size: 0.875rem;
-    }
-
-    .social-links {
-        display: flex;
-        justify-content: center;
-        gap: 0.5rem;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .social-icon {
-        display: inline-block;
-        width: 24px;
-        height: 24px;
-        background-color: var(--color-muted);
-        mask-repeat: no-repeat;
-        mask-position: center;
-        mask-size: contain;
-        -webkit-mask-repeat: no-repeat;
-        -webkit-mask-position: center;
-        -webkit-mask-size: contain;
-        transition: background-color 150ms ease, transform 150ms ease;
-    }
-
-    .social-link {
-        opacity: 0.7;
-        display: inline-flex;
-        transition: opacity 150ms ease;
-    }
-
-    .social-link:hover,
-    .social-link:focus-visible {
-        opacity: 1;
-    }
-
-    .social-link:hover .social-icon,
-    .social-link:focus-visible .social-icon {
-        background-color: var(--color-primary);
-        transform: translateY(-1px);
     }
 </style>

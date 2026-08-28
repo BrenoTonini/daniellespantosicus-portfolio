@@ -1,14 +1,13 @@
 ---
 import { Image } from 'astro:assets';
-import { getLangFromUrl, useTranslatedPath } from '../i18n/utils';
+import { getLangFromUrl, useTranslations, useTranslatedPath } from '../i18n/utils';
 import Nav from './Nav.astro';
 import LanguagePicker from './LanguagePicker.astro';
-import InstagramLogo from '../assets/icons/instagram-logo-outline.svg';
-import XLogo from '../assets/icons/x-logo-outline.svg';
-import VGenLogo from '../assets/icons/vgen-logo-outline.svg';
+import SocialLinks from './SocialLinks.astro';
 import Assinatura from '../assets/assinatura-danielle-spantosicus-branca.png';
 
 const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 const translatedPath = useTranslatedPath(lang);
 ---
 
@@ -16,7 +15,7 @@ const translatedPath = useTranslatedPath(lang);
 
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
 
-        <a href={translatedPath('/')} class="shrink-0 self-stretch flex items-center" aria-label="Danielle Spantosicus — página inicial">
+        <a href={translatedPath('/')} class="shrink-0 self-stretch flex items-center" aria-label={t('header.home.ariaLabel')}>
             <Image
                 src={Assinatura}
                 alt="Danielle Spantosicus"
@@ -28,40 +27,17 @@ const translatedPath = useTranslatedPath(lang);
             />
         </a>
 
-        <nav class="hidden sm:flex flex-1 justify-center" aria-label="Navegação principal">
-            <Nav />
-        </nav>
+        <Nav ariaLabel={t('nav.ariaLabel')} class="hidden sm:flex flex-1 justify-center" />
 
         <div class="flex items-center gap-3 shrink-0">
-            <ul class="flex items-center gap-2 list-none m-0 p-0" aria-label="Redes sociais">
-                <li>
-                    <a href="https://vgen.co/Spantosicus_" target="_blank" rel="noopener noreferrer" class="social-link">
-                        <span class="sr-only">Perfil no VGen</span>
-                        <span class="social-icon" style={`mask-image: url(${VGenLogo.src}); -webkit-mask-image: url(${VGenLogo.src});`} aria-hidden="true"></span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://www.instagram.com/spantosicus/" target="_blank" rel="noopener noreferrer" class="social-link">
-                        <span class="sr-only">Instagram</span>
-                        <span class="social-icon" style={`mask-image: url(${InstagramLogo.src}); -webkit-mask-image: url(${InstagramLogo.src});`} aria-hidden="true"></span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://x.com/Spantosicus_" target="_blank" rel="noopener noreferrer" class="social-link">
-                        <span class="sr-only">X / Twitter</span>
-                        <span class="social-icon" style={`mask-image: url(${XLogo.src}); -webkit-mask-image: url(${XLogo.src});`} aria-hidden="true"></span>
-                    </a>
-                </li>
-            </ul>
+            <SocialLinks />
             <LanguagePicker />
         </div>
     </div>
 
     <div class="sm:hidden border-t border-(--color-border)">
-        <div class="px-4 h-10 flex items-center justify-center">
-            <nav aria-label="Navegação mobile">
-                <Nav />
-            </nav>
+        <div class="px-4 h-12 flex items-center justify-center">
+            <Nav ariaLabel={t('nav.ariaLabel.mobile')} />
         </div>
     </div>
 
@@ -74,36 +50,5 @@ const translatedPath = useTranslatedPath(lang);
         width: auto;
         position: relative;
         z-index: 10;
-    }
-    
-    .social-icon {
-        display: inline-block;
-        width: 24px;
-        height: 24px;
-        background-color: var(--color-muted);
-        mask-repeat: no-repeat;
-        mask-position: center;
-        mask-size: contain;
-        -webkit-mask-repeat: no-repeat;
-        -webkit-mask-position: center;
-        -webkit-mask-size: contain;
-        transition: background-color 150ms ease, transform 150ms ease;
-    }
-
-    .social-link {
-        opacity: 0.7;
-        display: inline-flex;
-        transition: opacity 150ms ease;
-    }
-
-    .social-link:hover,
-    .social-link:focus-visible {
-        opacity: 1;
-    }
-
-    .social-link:hover .social-icon,
-    .social-link:focus-visible .social-icon {
-        background-color: var(--color-primary);
-        transform: translateY(-1px);
     }
 </style>
