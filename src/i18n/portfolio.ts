@@ -11,6 +11,14 @@ import MariaAndJohnny from '../assets/works/maria-and-johnny-commission.webp';
 import PidgeConcept from '../assets/works/pidge-concept-commission.webp';
 import Clover from '../assets/works/clover-commission.webp';
 import TheBoys from '../assets/works/the-boys-commission.webp';
+import TylerAndIvyHalfbody from '../assets/works/tyler-and-ivy-halfbody-commission.webp';
+import JennyDate from '../assets/works/jenny-date-commission.webp';
+import SammyPool from '../assets/works/sammy-pool-commission.webp';
+import TylerAndIvyBustUp from '../assets/works/tyler-and-ivy-bust-up-commission.webp';
+import PidgeonotteSummer from '../assets/works/pidgeonotte-summer-commission.webp';
+import SammyPicnic from '../assets/works/sammy-picnic-commission.webp';
+import TylerAndIvyFullbody from '../assets/works/tyler-and-ivy-fullbody-commission.webp';
+import CassidAndNicole from '../assets/works/cassid-and-nicole-commission.webp';
 
 type PortfolioLocale = 'en' | 'pt-br';
 
@@ -88,6 +96,16 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
           title: 'Chandler Hallow',
         },
         {
+          src: TylerAndIvyBustUp,
+          alt: 'Commission: Three-panel illustration of Tyler and Ivy from the chest up, each panel in a different mood',
+          title: 'Tyler and Ivy, three panels',
+        },
+        {
+          src: CassidAndNicole,
+          alt: 'Commission: Chibi illustration of Cassid and Nicole on a pink background with hearts',
+          title: 'Cassid and Nicole, chibi',
+        },
+        {
           src: SupernaturalWendigo,
           alt: 'Scene illustration with Dean and Sam facing a Wendigo',
           title: 'Supernatural Wendigo',
@@ -104,20 +122,31 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
           title: 'Pidge concept art',
         },
         {
+          src: SlyCooper,
+          alt: 'Character illustration of Sly Cooper',
+          title: 'Sly Cooper',
+        },
+        {
+          type: 'video',
+          src: '/works/gif-carmelita.webm',
+          alt: 'Animated GIF of Carmelita Fox',
+          title: 'GIF Carmelita Fox',
+        },
+        {
           type: 'video',
           src: '/works/gif-sly.webm',
           alt: 'Animated GIF of Sly Cooper',
           title: 'GIF Sly Cooper',
         },
         {
-          src: SlyCooper,
-          alt: 'Character illustration of Sly Cooper',
-          title: 'Sly Cooper',
+          src: TylerAndIvyFullbody,
+          alt: "Commission: Full-body illustration of Tyler and Ivy, with Ivy sitting on Tyler's shoulders",
+          title: 'Tyler and Ivy, full body',
         },
         {
-          src: DeanAndCastiel,
-          alt: 'Illustration of Dean Winchester and Castiel',
-          title: 'Dean and Castiel',
+          src: PidgeonotteSummer,
+          alt: 'Commission: Illustration of Pidgeonotte, an elf with green hair and a sunflower, in a swimming pool',
+          title: 'Pidgeonotte, summer',
         },
         {
           src: MrBeast,
@@ -131,15 +160,34 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
           title: 'The Boys Commission',
         },
         {
-          type: 'video',
-          src: '/works/gif-carmelita.webm',
-          alt: 'Animated GIF of Carmelita Fox',
-          title: 'GIF Carmelita Fox',
+          src: SammyPicnic,
+          alt: 'Commission: Illustration of Johnny and Maria at a picnic under a tree by a lake',
+          title: 'Sammy, the picnic',
+        },
+        {
+          src: JennyDate,
+          alt: 'Commission: Illustration of Johnny and Maria running hand in hand through sunlit woods',
+          title: 'Jenny, the date',
+        },
+        {
+          src: SammyPool,
+          alt: 'Commission: Illustration of Johnny and Maria leaning over a pool table in a bar',
+          title: 'Sammy, the pool table',
+        },
+        {
+          src: TylerAndIvyHalfbody,
+          alt: 'Commission: Illustration of Tyler and Ivy embracing, shown from the waist up',
+          title: 'Tyler and Ivy, half body',
         },
         {
           src: Clover,
           alt: 'Focus illustration of Clover from pidgeonotte commission',
-          title: 'Clover, The conure'
+          title: 'Clover, The conure',
+        },
+        {
+          src: DeanAndCastiel,
+          alt: 'Illustration of Dean Winchester and Castiel',
+          title: 'Dean and Castiel',
         },
       ],
     },
@@ -168,12 +216,22 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
         {
           src: MariaAndJohnny,
           alt: 'Comissão: Ilustração de Maria e Johnny do jogo "The Texas Chain Saw Massacre"',
-          title: 'Maria e Johnny'
+          title: 'Maria e Johnny',
         },
         {
           src: Chandler,
           alt: 'Ilustração retrato do Chandler Hallow da equipe MrBeast',
           title: 'Chandler Hallow',
+        },
+        {
+          src: TylerAndIvyBustUp,
+          alt: 'Comissão: Ilustração em três quadros de Tyler e Ivy do peito para cima, cada quadro em um clima diferente',
+          title: 'Tyler e Ivy, três quadros',
+        },
+        {
+          src: CassidAndNicole,
+          alt: 'Comissão: Ilustração chibi de Cassid e Nicole sobre fundo rosa com corações',
+          title: 'Cassid e Nicole, chibi',
         },
         {
           src: SupernaturalWendigo,
@@ -189,7 +247,18 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
         {
           src: PidgeConcept,
           alt: 'Comissão: Concept art do personagem de Pidgeonotte',
-          title: 'Pidge concept art'
+          title: 'Pidge concept art',
+        },
+        {
+          src: SlyCooper,
+          alt: 'Ilustração de personagem do Sly Cooper',
+          title: 'Sly Cooper',
+        },
+        {
+          type: 'video',
+          src: '/works/gif-carmelita.webm',
+          alt: 'GIF animado da Carmelita Fox',
+          title: 'GIF Carmelita Fox',
         },
         {
           type: 'video',
@@ -198,14 +267,14 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
           title: 'GIF Sly Cooper',
         },
         {
-          src: SlyCooper,
-          alt: 'Ilustração de personagem do Sly Cooper',
-          title: 'Sly Cooper',
+          src: TylerAndIvyFullbody,
+          alt: 'Comissão: Ilustração de corpo inteiro de Tyler e Ivy, com Ivy sentada nos ombros de Tyler',
+          title: 'Tyler e Ivy, corpo inteiro',
         },
         {
-          src: DeanAndCastiel,
-          alt: 'Ilustração de Dean Winchester e Castiel',
-          title: 'Dean e Castiel',
+          src: PidgeonotteSummer,
+          alt: 'Comissão: Ilustração de Pidgeonotte, uma elfa de cabelo verde com um girassol, em uma piscina',
+          title: 'Pidgeonotte, verão',
         },
         {
           src: MrBeast,
@@ -216,20 +285,38 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
         {
           src: TheBoys,
           alt: 'Comissão: Ilustração de Soldier Boy da série "The Boys" e Mia',
-          title: 'The boys Commission'
+          title: 'The boys Commission',
         },
         {
-          type: 'video',
-          src: '/works/gif-carmelita.webm',
-          alt: 'GIF animado da Carmelita Fox',
-          title: 'GIF Carmelita Fox',
+          src: SammyPicnic,
+          alt: 'Comissão: Ilustração de Johnny e Maria em um piquenique sob uma árvore à beira de um lago',
+          title: 'Sammy, o piquenique',
+        },
+        {
+          src: JennyDate,
+          alt: 'Comissão: Ilustração de Johnny e Maria correndo de mãos dadas por uma mata ensolarada',
+          title: 'Jenny, o encontro',
+        },
+        {
+          src: SammyPool,
+          alt: 'Comissão: Ilustração de Johnny e Maria debruçados sobre uma mesa de sinuca em um bar',
+          title: 'Sammy, a mesa de sinuca',
+        },
+        {
+          src: TylerAndIvyHalfbody,
+          alt: 'Comissão: Ilustração de Tyler e Ivy abraçados, da cintura para cima',
+          title: 'Tyler e Ivy, meio corpo',
         },
         {
           src: Clover,
           alt: 'Foco na ilustração de Clover da comissão da Pidgeonotte',
-          title: 'Clover, O papagaio'
-        }
-        
+          title: 'Clover, O papagaio',
+        },
+        {
+          src: DeanAndCastiel,
+          alt: 'Ilustração de Dean Winchester e Castiel',
+          title: 'Dean e Castiel',
+        },
       ],
     },
   },
