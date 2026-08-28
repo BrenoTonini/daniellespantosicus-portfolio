@@ -21,7 +21,11 @@ const VIEWPORTS = [
   { name: '1440-desktop', width: 1440, height: 900 },
 ];
 
-const PAGES = ['/en/', '/en/about/', '/en/portfolio/', '/pt-br/'];
+/** Rota que não existe de propósito, para a página 404 passar pelas mesmas
+  * checagens das outras. */
+const NOT_FOUND_ROUTE = '/en/rota-inexistente/';
+
+const PAGES = ['/en/', '/en/about/', '/en/portfolio/', '/pt-br/', NOT_FOUND_ROUTE];
 
 async function launch() {
   for (const channel of ['chrome', 'msedge', null]) {
@@ -43,12 +47,21 @@ async function launch() {
     const ctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height } });
     const page = await ctx.newPage();
     const errors = [];
+    // O documento da 404 responde 404, e o Chrome loga isso como erro de
+    // console. É o comportamento esperado ali — e só ali: um 404 de imagem ou
+    // de script em qualquer outra rota continua sendo problema.
+    let route = '';
+    const expected = (text) =>
+      route === NOT_FOUND_ROUTE && /status of 404/.test(text);
+
     page.on('pageerror', (e) => errors.push(e.message));
-    page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
+    page.on('console', (m) => {
+      if (m.type() === 'error' && !expected(m.text())) errors.push(m.text());
+    });
 
     console.log(`\n=== ${vp.name} ===`);
 
-    for (const route of PAGES) {
+    for (route of PAGES) {
       await page.goto(BASE + route, { waitUntil: 'networkidle' });
 
       const overflow = await page.evaluate(
@@ -76,6 +89,7 @@ async function launch() {
 
     // Carrossel: as posições de snap têm que casar com o fim do scroll, senão o
     // último card fica inalcançável.
+    route = '/en/';
     await page.goto(BASE + '/en/', { waitUntil: 'networkidle' });
     const carousel = await page.evaluate(() => {
       const track = document.querySelector('[data-carousel-track]');

@@ -10,6 +10,9 @@ interface Props {
 	canonicalURL?: string;
 	image?: ImageMetadata;
 	alternates?: { lang: string; href: string }[];
+	/** Tira a página do índice e suprime canonical/hreflang. Para rotas que não
+	  * representam um endereço válido — hoje só a 404. */
+	noindex?: boolean;
 }
 
 const {
@@ -19,6 +22,7 @@ const {
 	canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
 	image = FallbackImage,
 	alternates = [],
+	noindex = false,
 } = Astro.props;
 
 const ogLocale = lang === "pt-br" ? "pt_BR" : "en_US";
@@ -48,7 +52,13 @@ const xDefaultHref =
 />
 
 <!-- Canonical & hreflang -->
-<link rel="canonical" href={canonicalURL} />
+{
+	noindex ? (
+		<meta name="robots" content="noindex, follow" />
+	) : (
+		<link rel="canonical" href={canonicalURL} />
+	)
+}
 {
 	alternates.map(({ lang: l, href }) => (
 		<link rel="alternate" hreflang={l} href={href} />

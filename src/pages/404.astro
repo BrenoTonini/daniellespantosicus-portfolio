@@ -1,0 +1,31 @@
+---
+/**
+ * SSR de propósito — a única página do site que não é pré-renderizada.
+ *
+ * O mesmo motivo do middleware em `/`: só em runtime existe a URL que o
+ * visitante pediu, e é dela que sai o idioma. Uma 404 estática seria servida
+ * em inglês para quem errou o caminho dentro de `/pt-br/`.
+ *
+ * O idioma vem de `getLangFromUrl`, igual a Header/Nav/Footer — assim a
+ * moldura da página e o conteúdo nunca discordam. Caminho sem prefixo de
+ * idioma cai em `defaultLang`, que é o mesmo `x-default` do hreflang.
+ */
+export const prerender = false;
+
+import PageLayout from '../layouts/PageLayout.astro';
+import NotFound from '../components/notfound/NotFound.astro';
+import { notFoundContent } from '../i18n/notFound';
+import { getLangFromUrl } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const content = notFoundContent[lang];
+---
+
+<PageLayout
+	title={content.seo.title}
+	description={content.seo.description}
+	lang={lang}
+	noindex
+>
+	<NotFound content={content} />
+</PageLayout>

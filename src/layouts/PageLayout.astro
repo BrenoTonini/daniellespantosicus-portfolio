@@ -11,9 +11,10 @@ interface Props {
     canonicalURL?: string;
     ogImage?: ImageMetadata;
     alternates?: { lang: string; href: string }[];
+    noindex?: boolean;
 }
 
-const { title, description, lang, canonicalURL, ogImage, alternates } = Astro.props;
+const { title, description, lang, canonicalURL, ogImage, alternates, noindex } = Astro.props;
 ---
 
 <!doctype html>
@@ -26,6 +27,7 @@ const { title, description, lang, canonicalURL, ogImage, alternates } = Astro.pr
             canonicalURL={canonicalURL}
             image={ogImage}
             alternates={alternates}
+            noindex={noindex}
         />
     </head>
 

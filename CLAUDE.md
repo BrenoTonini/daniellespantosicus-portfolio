@@ -42,6 +42,12 @@ serverless que só atende `/`.
 **Implicação:** qualquer página nova precisa de `export const prerender = true` explícito, senão
 vira SSR silenciosamente.
 
+A única exceção é [404.astro](src/pages/404.astro), que declara `prerender = false` — pelo mesmo
+motivo do middleware, e explicado no topo do arquivo: só em runtime existe a URL que o visitante
+pediu, e é dela que sai o idioma da página. Pré-renderizada, ela serviria inglês para quem errou
+o caminho dentro de `/pt-br/`. O `vercel.json` gerado já manda todo caminho não resolvido para a
+função com `status: 404`, então a rota SSR entra sem configuração extra.
+
 ---
 
 ## 2. Internacionalização (implementação própria)
@@ -86,6 +92,7 @@ Decisão central: **todo o conteúdo editorial é código TypeScript**, não Mar
   num mapa `icons`), processo, teaser do sobre, depoimentos, FAQ, CTA final.
 - [i18n/portfolio.ts](src/i18n/portfolio.ts) — seo, ogImage, intro e itens da galeria.
 - [i18n/about.ts](src/i18n/about.ts) — seo, hero e parágrafos da história.
+- [i18n/notFound.ts](src/i18n/notFound.ts) — seo, cópia da 404 e os dois caminhos de volta.
 
 Cada componente de seção recebe uma prop `content` tipada por uma fatia desse objeto. As imagens
 são importadas no topo do módulo, o que dá otimização e `ImageMetadata` de graça.
@@ -121,7 +128,12 @@ checagem exatamente onde ela era mais útil. **Não reintroduzir `as any` aqui.*
   - `FAQPage` em [FAQ.astro](src/components/home/FAQ.astro)
   - `Product` + `Review[]` + `AggregateRating` em
     [Testimonials.astro](src/components/home/Testimonials.astro)
-- Sitemap com filtro que **remove `/`** (a raiz é só redirect, não deve ser indexada).
+- Sitemap com filtro que **remove `/`** (a raiz é só redirect, não deve ser indexada). A 404 não
+  aparece nele por não ser pré-renderizada.
+- `BaseHead` aceita `noindex`, que troca o `<link rel="canonical">` por
+  `<meta name="robots" content="noindex, follow">`. É de uso da 404 e de mais nada: uma URL que
+  não existe não pode se declarar canônica de si mesma, e a página também não recebe `alternates`
+  (não há equivalente em outro idioma de um endereço errado).
 - [robots.txt](public/robots.txt) estático + ponteiro para o sitemap.
 
 O SEO de cada página vem de `content.seo` nos módulos de i18n — nada hardcoded na página.
@@ -187,6 +199,7 @@ components/home/            Hero, FeaturedWorks, Services, Process, AboutTeaser,
                             Testimonials, FAQ, FinalCTA, SectionHeading
 components/about/           AboutHero, AboutText
 components/portfolio/       PortfolioIntro, PortfolioGallery
+components/notfound/        NotFound
 ```
 
 **Interatividade é toda vanilla JS em `<script>` inline** — nenhuma ilha de framework, nenhum
@@ -262,6 +275,36 @@ Regras de layout que valem a pena não redescobrir:
 - O grid de 5 colunas só entra em `lg`. Em `md` cinco pranchas dariam ~120px cada e a legenda
   caberia em duas palavras por linha, então até 1024px a seção é uma lista de linhas.
 
+### `NotFound.astro`: a prancha fora de registro
+
+A 404 reusa a linguagem da home inteira — gradientes estáticos do Hero, grão, eyebrow em
+maiúsculas, os dois botões do Hero, e a prancha com marcas de corte de `Process.astro`. O que ela
+tem de próprio é o efeito: **três cópias de "404" fora de registro**, como uma tiragem que saiu
+torta. A de cima é opaca; as outras duas são chapas de cor (`primary-dark` e `primary`).
+
+O gesto é o que amarra o efeito ao conteúdo: **passar o ponteiro (ou o foco) no botão de voltar
+para a home acerta o registro** — as chapas voltam ao lugar e o "404" fica limpo. O caminho que
+resolve o erro é o que conserta a imagem. Vale no `focus` também, senão quem navega por teclado
+não veria a resposta.
+
+Regras que valem não redescobrir:
+
+- **`translate` (a propriedade) guarda o desalinhamento de base; `transform` é do script.** São
+  duas propriedades independentes que compõem, então o parallax por frame não apaga o desvio
+  inicial. Escrever tudo em `transform` obrigaria a recompor a string a cada frame.
+- **Estilo inline ganha de folha de estilo, então `.is-aligned` só funciona depois de limpar o
+  `style.transform`.** É o que o `setAligned(true)` faz antes de devolver o controle ao CSS, e o
+  motivo de `apply()` sair cedo enquanto a classe está posta.
+- **A deriva de repouso e o parallax disputam a mesma propriedade** — dois movimentos em
+  `transform` não somam, um vence. Daí `.is-live` desligar a `animation` quando o ponteiro assume.
+  A deriva existe para o toque, onde não há ponteiro para reagir.
+- **Mesma disciplina de `pointermove` do Hero**: rect lido no máximo uma vez por frame, nunca no
+  handler, invalidado por resize/scroll.
+- **A prancha é retrato, então a largura precisa ser contida no mobile** (`max-w-[13rem]`). Em
+  largura cheia ela empurra os botões para fora da primeira tela — numa 404 o caminho de volta é
+  o conteúdo, não pode ficar abaixo da dobra. Os espaçamentos verticais do mobile também são
+  menores que os do resto do site por isso.
+
 **Header**: sticky, sem hamburger. No mobile a navegação vira uma segunda faixa
 (`sm:hidden border-t`), e a assinatura usa `height: 4.5rem; margin-top: 1rem` dentro de um
 header de `h-16` — transborda de propósito (daí o `overflow-visible`).
@@ -332,6 +375,11 @@ npm run qa:perf    # tracing do Chrome com CPU estrangulada, orçamento 4ms/fram
 O `qa:visual` usa o Chrome/Edge do sistema, então não baixa browsers. Ele falha se houver
 overflow horizontal, `aria-labelledby` sem destino, erro de JS no console, ou se as posições de
 snap do carrossel não casarem com o número de dots visíveis.
+
+A lista de rotas inclui uma que **não existe de propósito** (`NOT_FOUND_ROUTE`), para a 404 passar
+pelas mesmas checagens. Só ali o script ignora o `status of 404` que o Chrome loga no console — é o
+comportamento esperado do documento; um 404 de imagem ou de script em qualquer outra rota continua
+sendo problema.
 
 ---
 
