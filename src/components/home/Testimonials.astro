@@ -15,7 +15,7 @@ const t = useTranslations(lang);
 const testimonialsStructuredData = {
   "@context": "https://schema.org",
   "@type": "Product",
-  "name": "Art Commission by Danielle Spantosicus",
+  "name": t("testimonials.productName"),
   "review": content.items.map((item) => ({
     "@type": "Review",
     "reviewRating": {

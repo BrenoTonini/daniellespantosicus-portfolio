@@ -29,6 +29,7 @@ export const ui = {
         'testimonials.next': 'Next review',
         'testimonials.goTo': 'Go to review {n}',
         'testimonials.rating': '5 out of 5 stars',
+        'testimonials.productName': 'Art Commission by Danielle Spantosicus',
     },
     "pt-br": {
         'nav.home': 'Início',
@@ -52,6 +53,7 @@ export const ui = {
         'testimonials.next': 'Próxima avaliação',
         'testimonials.goTo': 'Ir para avaliação {n}',
         'testimonials.rating': '5 de 5 estrelas',
+        'testimonials.productName': 'Comissão de Arte com Danielle Spantosicus',
     },
     es: {
         'nav.home': 'Inicio',
@@ -75,6 +77,7 @@ export const ui = {
         'testimonials.next': 'Siguiente reseña',
         'testimonials.goTo': 'Ir a la reseña {n}',
         'testimonials.rating': '5 de 5 estrellas',
+        'testimonials.productName': 'Comisión de Arte con Danielle Spantosicus',
     },
 } as const;
 
