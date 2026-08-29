@@ -83,7 +83,7 @@ export const serviceIcons = [
   icons['background'],
 ] as const;
 
-export type Lang = 'en' | 'pt-br';
+export type Lang = 'en' | 'pt-br' | 'es';
 
 interface Seo {
   title: string;
@@ -726,6 +726,266 @@ export const homeContent: Record<Lang, HomeContent> = {
       ctaSecondary: "Ver Portfólio",
       ctaPrimaryHref: "https://vgen.co/Spantosicus_",
       ctaSecondaryHref: "/pt-br/portfolio",
+    },
+  },
+
+  "es": {
+    seo: {
+      title: "Danielle Spantosicus - Artista Digital e Ilustradora de Personajes",
+      description:
+        "Arte digital personalizado e ilustraciones de personajes por Danielle Spantosicus. Abierta para comisiones: personajes, retratos, fanart, arte para VTuber y más.",
+    },
+
+    hero: {
+      eyebrow: "Artista Digital e Ilustradora",
+      heading: "Arte Digital e Ilustraciones de Personajes Personalizadas",
+      subheading:
+        "Le doy vida a tus personajes, tus historias y tus ideas a través de la ilustración digital expresiva. Abierta para comisiones.",
+      ctaPrimary: "Ver Portafolio",
+      ctaSecondary: "Pídeme una Comisión",
+      ctaPrimaryHref: "/es/portfolio",
+      ctaSecondaryHref: "https://vgen.co/Spantosicus_",
+      bannerImage: DeanWinchester,
+      imageAlt: "Ilustración digital de Danielle Spantosicus, obra destacada",
+      scrollHint: "Desplázate para ver más",
+    },
+
+    featured: {
+      eyebrow: "Trabajos Seleccionados",
+      heading: "Mis Ilustraciones",
+      body: "Estas son algunas de mis creaciones personales. ¡Para ver más proyectos, visita mi portafolio!",
+      cta: "Ver Portafolio Completo",
+      ctaHref: "/es/portfolio",
+      works: [
+        {
+          src: DeanWinchester,
+          alt: 'Ilustración fanart de Dean Winchester, retrato del personaje de Supernatural',
+          caption: 'Dean Winchester',
+        },
+        {
+          src: Chandler,
+          alt: 'Ilustración fanart de Chandler Hallow, retrato del youtuber del equipo de MrBeast',
+          caption: 'Chandler Hallow',
+        },
+        {
+          src: DeanAndSam,
+          alt: 'Ilustración fanart de Dean y Sam Winchester, los hermanos Winchester de Supernatural',
+          caption: 'Dean & Sam',
+        },
+        {
+          type: 'video',
+          src: '/works/gif-sly.webm',
+          alt: 'GIF animado de Sly Cooper, ilustración del personaje de videojuego',
+          caption: 'Gif Sly Cooper',
+        },
+        {
+          src: SlyCooper,
+          alt: 'Ilustración fanart de Sly Cooper, retrato del personaje de la saga de videojuegos Sly Cooper',
+          caption: 'Sly Cooper',
+        },
+        {
+          src: MrBeast,
+          alt: 'Ilustración fanart de MrBeast, retrato del famoso youtuber',
+          caption: 'Mr. Beast',
+        },
+        {
+          type: 'video',
+          src: '/works/gif-carmelita.webm',
+          alt: 'GIF animado de Carmelita Fox, ilustración de la personaje de la saga Sly Cooper',
+          caption: 'Gif Carmelita Fox',
+        },
+        {
+          src: DeanAndCastiel,
+          alt: 'Ilustración fanart de Dean Winchester y Castiel, retrato de los personajes de Supernatural',
+          caption: 'Dean & Castiel',
+        },
+      ],
+    },
+
+    services: {
+      eyebrow: "Lo Que Hago",
+      heading: "Servicios de Ilustración",
+      body: "Cada comisión se hace con cuidado, desde el primer boceto hasta el render final. Esto es en lo que me especializo.",
+      items: [
+        {
+          title: "Ilustración de Personaje",
+          description:
+            "Ilustraciones de tu personaje en busto, medio cuerpo y cuerpo entero, además de emotes y banners.",
+          icon: icons["character"],
+        },
+        {
+          title: "Animaciones en Loop",
+          description:
+            "Tu personaje cobrando vida con movimientos expresivos y únicos.",
+          icon: icons["loop"],
+        },
+        {
+          title: "Fanart",
+          description:
+            "Tus personajes favoritos de juegos, películas, series o cualquier otro medio, con un toque artístico personal.",
+          icon: icons["fanart"],
+        },
+        {
+          title: "Personajes Originales (OC)",
+          description:
+            "Diseño e ilustración de personajes para tus OCs, incluyendo reference sheets.",
+          icon: icons["oc"],
+        },
+        {
+          title: "Arte para VTuber y PNGTuber",
+          description:
+            "Arte de personaje expresivo y listo para cámara, pensado para modelos de VTuber y PNGTuber. Hago el arte y el rig.",
+          icon: icons["vtuber"],
+        },
+        {
+          title: "Ilustración de Fondos",
+          description:
+            "Escenas ricas y atmosféricas del universo de tu personaje.",
+          icon: icons["background"],
+        },
+      ],
+    },
+
+    process: {
+      eyebrow: "Cómo Funciona",
+      heading: "De la Idea al Arte Final",
+      body: "Un proceso claro y colaborativo, pensado para que encargar una comisión sea simple y agradable para los dos.",
+      steps: [
+        {
+          number: "01",
+          title: "Envía Tu Idea",
+          description:
+            "Completa el formulario de comisión o escríbeme directamente. Comparte tu concepto, tus referencias y cualquier requisito específico.",
+          icon: icons["bulb"],
+        },
+        {
+          number: "02",
+          title: "Definimos los Detalles",
+          description:
+            "Nos ponemos de acuerdo sobre el alcance, el estilo, el plazo y el precio antes de empezar.",
+          icon: icons["messages"],
+        },
+        {
+          number: "03",
+          title: "Aprobación del Boceto",
+          description:
+            "Revisas el boceto inicial y puedes pedir ajustes antes de que pase al render final.",
+          image: SupernaturalSketch,
+          imageAlt:
+            "Etapa de boceto de una ilustración fanart de Supernatural: Dean y Sam Winchester en trazo suelto azul verdoso, vistos desde arriba",
+        },
+        {
+          number: "04",
+          title: "Render Final",
+          description:
+            "Con el boceto aprobado, termino la ilustración con color, iluminación y todos los detalles.",
+          image: SupernaturalColor,
+          imageAlt:
+            "Etapa de render de la misma ilustración: el boceto relleno de color, sombreado e iluminación",
+        },
+        {
+          number: "05",
+          title: "Entrega",
+          description:
+            "Recibes los archivos finales en alta resolución, listos para usar como quieras.",
+          image: SupernaturalFinal,
+          imageAlt:
+            "Etapa final de la misma ilustración: Dean y Sam Winchester sobre un fondo de humo y brasas, firmada por Danielle Spantosicus",
+        },
+      ],
+    },
+
+    about: {
+      eyebrow: "Sobre la Artista",
+      heading: "Hola, soy Danielle.",
+      body: "Soy una artista digital brasileña enamorada de los personajes expresivos. Cada ilustración que creo es una idea que hago realidad a través de mi estilo.",
+      cta: "Leer Mi Historia",
+      ctaHref: "/es/about",
+      parallaxImage: SupernaturalWendigo,
+      imageAlt: "Dean y Sam preparándose para enfrentar a un Wendigo, ilustración digital de Danielle Spantosicus",
+    },
+
+    testimonials: {
+      eyebrow: "Opiniones de Clientes",
+      heading: "Lo Que Dicen",
+      items: [
+        {
+          quote: "Respondió súper rápido cada vez que tuve alguna duda, y siempre preguntaba antes de agregar un detalle para asegurarse de que nada quedara afuera. Me encantó hablar con Danielle, muy atenta y comprensiva ♥️",
+          author: "Majascreationss",
+          context: "Fullbody de Tu Personaje",
+        },
+        {
+          quote: "Siempre le encargo mis artes a Danielle y nunca me decepciona. Si tuviera que recomendar a una artista, sería ella. Se comunica todo el tiempo, se asegura de que quedes contento con el resultado final, hace cambios si se los pides y termina dándoles vida a mis personajes.",
+          author: "L3thargicx",
+          context: "Reference Sheet de Tu Personaje",
+        },
+        {
+          quote: "¡Artista increíble y muy talentosa! Muy amable y rápida con las respuestas y las actualizaciones. Me encantó encargarle un trabajo y conversar con ella. ¡Muchísimas gracias! ♥️♥️♥️",
+          author: "sammy_2496",
+          context: "Bust-Up de Tu Personaje (PFP)",
+        },
+        {
+          quote: "Tuve una experiencia increíble trabajando con Danielle. Me mostró el proceso paso a paso y con su talento logró hacer realidad lo que yo tenía en mente. Quedé muy satisfecha con mi comisión y le recomiendo a cualquiera trabajar con ella.",
+          author: "Desi",
+          context: "Fullbody de Tu Personaje",
+        },
+        {
+          quote: "Una artista muy talentosa, con muy buena comunicación, que se esfuerza para entregar trabajos de gran calidad. ¡La recomiendo muchísimo!",
+          author: "epgs30",
+          context: "YCH - Emotes",
+        },
+        {
+          quote: "Como siempre, una persona y una artista maravillosa para trabajar. Su arte es hermoso y no te vas a arrepentir~",
+          author: "Pidgeonotte",
+          context: "YCH - Tarjeta de Navidad"
+        },
+      ],
+    },
+
+    faq: {
+      eyebrow: "FAQ",
+      heading: "Preguntas Frecuentes",
+      items: [
+        {
+          question: "¿Qué tipos de comisión aceptas?",
+          answer:
+            "Trabajo con ilustraciones de personajes, fanart, diseño de OCs, animaciones en loop, emotes, arte para VTuber, escenarios y más. Mira la lista completa en mi VGen, o pregúntame directamente si te interesa un servicio específico.",
+        },
+        {
+          question: "¿Qué tipos de comisión NO aceptas?",
+          answer:
+            "No acepto contenido NSFW, explícito ni gore en exceso (puedo hacerlo, pero tiene un límite). También me reservo el derecho de rechazar cualquier pedido con el que no me sienta cómoda.",
+        },
+        {
+          question: "¿Cuánto tiempo lleva una comisión?",
+          answer:
+            "La mayoría se entrega entre 5 y 8 días, según la complejidad y la fila del momento. Te doy una estimación en nuestra primera conversación, y además tienes garantía de entrega en hasta 30 días.",
+        },
+        {
+          question: "¿Trabajas con referencias?",
+          answer:
+            "Sí, las referencias son muy bienvenidas y ayudan a que el resultado final coincida con lo que tienes en mente. Puedes enviarme imágenes, moodboards, paletas de color o descripciones escritas.",
+        },
+        {
+          question: "¿El arte se puede usar comercialmente?",
+          answer:
+            "El uso personal ya está incluido en todas las comisiones. La licencia comercial tiene un costo aparte, así que cuéntame qué uso le vas a dar cuando pidas un presupuesto.",
+        },
+        {
+          question: "¿Ofreces revisiones?",
+          answer:
+            "Sí. Ofrezco revisiones y algunos cambios durante el proceso. Los cambios grandes después del render final pueden tener un costo adicional.",
+        },
+      ],
+    },
+
+    finalCta: {
+      heading: "¿Empezamos tu Comisión?",
+      body: "Ya sea que tengas una idea bien definida o apenas una sensación... ¡Empecemos a conversar!",
+      ctaPrimary: "Solicitar una Comisión",
+      ctaSecondary: "Ver Mi Portafolio",
+      ctaPrimaryHref: "https://vgen.co/Spantosicus_",
+      ctaSecondaryHref: "/es/portfolio",
     },
   },
 };

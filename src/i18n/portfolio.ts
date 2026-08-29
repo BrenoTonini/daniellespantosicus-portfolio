@@ -20,7 +20,7 @@ import SammyPicnic from '../assets/works/sammy-picnic-commission.webp';
 import TylerAndIvyFullbody from '../assets/works/tyler-and-ivy-fullbody-commission.webp';
 import CassidAndNicole from '../assets/works/cassid-and-nicole-commission.webp';
 
-type PortfolioLocale = 'en' | 'pt-br';
+type PortfolioLocale = 'en' | 'pt-br' | 'es';
 
 interface PortfolioSEO {
   title: string;
@@ -316,6 +316,134 @@ export const portfolioContent: Record<PortfolioLocale, PortfolioPageContent> = {
           src: DeanAndCastiel,
           alt: 'Ilustração de Dean Winchester e Castiel',
           title: 'Dean e Castiel',
+        },
+      ],
+    },
+  },
+  es: {
+    seo: {
+      title: 'Portafolio | Danielle Spantosicus - Artista Digital',
+      description:
+        'Galería de ilustraciones digitales de Danielle Spantosicus, con foco en personajes, fanart y piezas animadas.',
+    },
+    ogImage: SupernaturalWendigo,
+    intro: {
+      heading: 'Portafolio',
+      description:
+        'Una selección de trabajos enfocada en los detalles, un espacio donde el arte habla por sí solo.',
+    },
+    gallery: {
+      ariaLabel: 'Galería de ilustraciones de Danielle Spantosicus',
+      items: [
+        {
+          src: DeanWinchester,
+          alt: 'Ilustración de Dean Winchester de Supernatural',
+          title: 'Dean Winchester',
+          eager: true,
+        },
+        {
+          src: MariaAndJohnny,
+          alt: 'Comisión: Ilustración de Maria y Johnny del juego "The Texas Chain Saw Massacre"',
+          title: 'Maria y Johnny',
+        },
+        {
+          src: Chandler,
+          alt: 'Ilustración retrato de Chandler Hallow, del equipo de MrBeast',
+          title: 'Chandler Hallow',
+        },
+        {
+          src: TylerAndIvyBustUp,
+          alt: 'Comisión: Ilustración en tres viñetas de Tyler e Ivy del pecho hacia arriba, cada viñeta con un ánimo distinto',
+          title: 'Tyler e Ivy, tres viñetas',
+        },
+        {
+          src: CassidAndNicole,
+          alt: 'Comisión: Ilustración chibi de Cassid y Nicole sobre un fondo rosa con corazones',
+          title: 'Cassid y Nicole, chibi',
+        },
+        {
+          src: SupernaturalWendigo,
+          alt: 'Ilustración de escena con Dean y Sam enfrentando a un Wendigo',
+          title: 'Supernatural Wendigo',
+        },
+        {
+          src: DeanAndSam,
+          alt: 'Ilustración de Dean y Sam Winchester juntos',
+          title: 'Dean y Sam',
+          eager: true,
+        },
+        {
+          src: PidgeConcept,
+          alt: 'Comisión: Concept art del personaje de Pidgeonotte',
+          title: 'Pidge concept art',
+        },
+        {
+          src: SlyCooper,
+          alt: 'Ilustración del personaje Sly Cooper',
+          title: 'Sly Cooper',
+        },
+        {
+          type: 'video',
+          src: '/works/gif-carmelita.webm',
+          alt: 'GIF animado de Carmelita Fox',
+          title: 'GIF Carmelita Fox',
+        },
+        {
+          type: 'video',
+          src: '/works/gif-sly.webm',
+          alt: 'GIF animado de Sly Cooper',
+          title: 'GIF Sly Cooper',
+        },
+        {
+          src: TylerAndIvyFullbody,
+          alt: 'Comisión: Ilustración de cuerpo entero de Tyler e Ivy, con Ivy sentada sobre los hombros de Tyler',
+          title: 'Tyler e Ivy, cuerpo entero',
+        },
+        {
+          src: PidgeonotteSummer,
+          alt: 'Comisión: Ilustración de Pidgeonotte, una elfa de pelo verde con un girasol, en una piscina',
+          title: 'Pidgeonotte, verano',
+        },
+        {
+          src: MrBeast,
+          alt: 'Retrato fanart de MrBeast',
+          title: 'Mr. Beast',
+          eager: true,
+        },
+        {
+          src: TheBoys,
+          alt: 'Comisión: Ilustración de Soldier Boy de la serie "The Boys" y Mia',
+          title: 'Comisión The Boys',
+        },
+        {
+          src: SammyPicnic,
+          alt: 'Comisión: Ilustración de Johnny y Maria en un picnic bajo un árbol a la orilla de un lago',
+          title: 'Johnny y Maria, el picnic',
+        },
+        {
+          src: JennyDate,
+          alt: 'Comisión: Ilustración de Johnny y Maria corriendo de la mano por un bosque soleado',
+          title: 'Johnny y Maria, la cita',
+        },
+        {
+          src: SammyPool,
+          alt: 'Comisión: Ilustración de Johnny y Maria inclinados sobre una mesa de billar en un bar',
+          title: 'Johnny y Maria, la mesa de billar',
+        },
+        {
+          src: TylerAndIvyHalfbody,
+          alt: 'Comisión: Ilustración de Tyler e Ivy abrazados, de la cintura hacia arriba',
+          title: 'Tyler e Ivy, medio cuerpo',
+        },
+        {
+          src: Clover,
+          alt: 'Ilustración con foco en Clover, de la comisión de Pidgeonotte',
+          title: 'Clover, la conura',
+        },
+        {
+          src: DeanAndCastiel,
+          alt: 'Ilustración de Dean Winchester y Castiel',
+          title: 'Dean y Castiel',
         },
       ],
     },

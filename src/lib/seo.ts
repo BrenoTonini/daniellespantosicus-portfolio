@@ -4,6 +4,7 @@ import { languages } from '../i18n/ui';
 const HREFLANG: Record<keyof typeof languages, string> = {
     en: 'en',
     'pt-br': 'pt-BR',
+    es: 'es',
 };
 
 export interface PageUrls {

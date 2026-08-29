@@ -25,7 +25,7 @@ const VIEWPORTS = [
   * checagens das outras. */
 const NOT_FOUND_ROUTE = '/en/rota-inexistente/';
 
-const PAGES = ['/en/', '/en/about/', '/en/portfolio/', '/pt-br/', NOT_FOUND_ROUTE];
+const PAGES = ['/en/', '/en/about/', '/en/portfolio/', '/pt-br/', '/es/', NOT_FOUND_ROUTE];
 
 async function launch() {
   for (const channel of ['chrome', 'msedge', null]) {

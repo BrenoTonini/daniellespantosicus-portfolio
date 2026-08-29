@@ -19,8 +19,8 @@ export function getLangFromBrowser(acceptLanguage: string): keyof typeof ui {
         .map(entry => entry.split(';')[0].trim().toLowerCase());
 
     for (const lang of langs) {
-        if (lang === 'pt-br') return 'pt-br';
         if (lang.startsWith('pt')) return 'pt-br';
+        if (lang.startsWith('es')) return 'es';
         if (lang === 'en' || lang.startsWith('en')) return 'en';
     }
 

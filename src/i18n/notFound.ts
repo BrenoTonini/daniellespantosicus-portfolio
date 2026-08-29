@@ -60,4 +60,22 @@ export const notFoundContent: Record<Lang, NotFoundContent> = {
     ctaSecondary: "Ver Portfólio",
     ctaSecondaryHref: "/pt-br/portfolio",
   },
+
+  "es": {
+    seo: {
+      title: "Página No Encontrada - Danielle Spantosicus",
+      description:
+        "Esta página no existe. Vuelve al portafolio de Danielle Spantosicus, artista digital e ilustradora de personajes.",
+    },
+
+    code: "404",
+    eyebrow: "Error 404",
+    heading: "Esta página nunca pasó del boceto",
+    body: "El enlace se rompió, la dirección cambió, o esta página nunca llegó a dibujarse. Las ilustraciones siguen todas ahí. Elige un camino de vuelta:",
+    plateCaption: "Sin título - lámina no encontrada",
+    ctaPrimary: "Volver al Inicio",
+    ctaPrimaryHref: "/es/",
+    ctaSecondary: "Ver Portafolio",
+    ctaSecondaryHref: "/es/portfolio",
+  },
 };

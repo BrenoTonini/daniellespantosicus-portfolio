@@ -1,0 +1,25 @@
+---
+export const prerender = true;
+
+import PageLayout from '../../layouts/PageLayout.astro';
+import { buildPageUrls } from '../../lib/seo';
+import { portfolioContent } from '../../i18n/portfolio';
+import PortfolioIntro from '../../components/portfolio/PortfolioIntro.astro';
+import PortfolioGallery from '../../components/portfolio/PortfolioGallery.astro';
+
+const lang = 'es';
+const content = portfolioContent[lang];
+const { canonicalURL, alternates } = buildPageUrls(Astro.site, Astro.url.origin, lang, '/portfolio/');
+---
+
+<PageLayout
+  title={content.seo.title}
+  description={content.seo.description}
+  lang={lang}
+  ogImage={content.ogImage}
+  canonicalURL={canonicalURL}
+  alternates={alternates}
+>
+  <PortfolioIntro content={content.intro} />
+  <PortfolioGallery content={content.gallery} />
+</PageLayout>

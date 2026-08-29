@@ -1,0 +1,36 @@
+---
+export const prerender = true;
+
+import PageLayout from "../../layouts/PageLayout.astro";
+import { buildPageUrls } from "../../lib/seo";
+import { homeContent } from "../../i18n/home";
+import Hero from "../../components/home/Hero.astro";
+import FeaturedWorks from "../../components/home/FeaturedWorks.astro";
+import Services from "../../components/home/Services.astro";
+import Process from "../../components/home/Process.astro";
+import AboutTeaser from "../../components/home/AboutTeaser.astro";
+import Testimonials from "../../components/home/Testimonials.astro";
+import FAQ from "../../components/home/FAQ.astro";
+import FinalCTA from "../../components/home/FinalCTA.astro";
+
+const lang = "es";
+const content = homeContent[lang];
+const { canonicalURL, alternates } = buildPageUrls(Astro.site, Astro.url.origin, lang, "/");
+---
+
+<PageLayout
+	title={content.seo.title}
+	description={content.seo.description}
+	lang={lang}
+	canonicalURL={canonicalURL}
+	alternates={alternates}
+>
+	<Hero content={content.hero} />
+	<FeaturedWorks content={content.featured} />
+	<Services content={content.services} />
+	<Process content={content.process} />
+	<AboutTeaser content={content.about} />
+	<Testimonials content={content.testimonials} />
+	<FAQ content={content.faq} />
+	<FinalCTA content={content.finalCta} />
+</PageLayout>

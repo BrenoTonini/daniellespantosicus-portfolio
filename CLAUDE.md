@@ -36,7 +36,7 @@ Dependências: `astro`, `@astrojs/mdx`, `@astrojs/sitemap`, `@astrojs/vercel`, `
 ```
 
 O motivo é o middleware: o redirect de `/` precisa ler `Accept-Language` em runtime, o que
-`static` não permite. O resultado é um híbrido — 6 páginas HTML estáticas + uma função
+`static` não permite. O resultado é um híbrido — 9 páginas HTML estáticas + uma função
 serverless que só atende `/`.
 
 **Implicação:** qualquer página nova precisa de `export const prerender = true` explícito, senão
@@ -54,13 +54,17 @@ função com `status: 404`, então a rota SSR entra sem configuração extra.
 
 Não usa `astro:i18n`. A camada é manual, em [src/i18n/](src/i18n/):
 
-- [ui.ts](src/i18n/ui.ts) — `languages` (`en`, `pt-br`), `defaultLang = 'en'`,
+- [ui.ts](src/i18n/ui.ts) — `languages` (`en`, `pt-br`, `es`), `defaultLang = 'en'`,
   `showDefaultLang = true`, e o dicionário `ui` de strings de interface (nav, socials, footer,
   language picker, controles do carrossel).
 - [utils.ts](src/i18n/utils.ts) — `getLangFromUrl`, `useTranslations`, `useTranslatedPath`,
   `getPathForLang`, `getLangFromBrowser`.
 - [middleware.ts](src/middleware.ts) — em `/`, lê `Accept-Language`, redireciona **302** para
   `/<lang>/` e seta `Vary: Accept-Language` (para a CDN não fixar um idioma no cache).
+
+`getLangFromBrowser` casa por prefixo, não por código exato: `pt-*` cai em `pt-br` e `es-*` cai
+em `es`. Existe **um** espanhol no site, então `es-419`, `es-MX` e `es-ES` vão todos para a mesma
+rota. Qualquer idioma não previsto cai em `defaultLang`, que é o mesmo `x-default` do hreflang.
 
 `showDefaultLang = true` significa que **nenhum idioma é servido na raiz**: todas as páginas
 vivem sob prefixo. [src/pages/index.astro](src/pages/index.astro) é um arquivo vazio
@@ -71,16 +75,18 @@ Interpolação segue o padrão `t('chave').replace('{n}', valor)` — usado em `
 
 ### Duplicação de rotas por idioma
 
-Cada página existe duas vezes, copiada:
+Cada página existe uma vez por idioma, copiada:
 
 ```
 src/pages/en/{index,about,portfolio}.astro
 src/pages/pt-br/{index,about,portfolio}.astro
+src/pages/es/{index,about,portfolio}.astro
 ```
 
 Não há `[lang]` dinâmico nem `getStaticPaths`. Os arquivos diferem apenas em `lang` e no path
-passado ao helper de SEO. **Ainda é uma dívida** — adicionar um terceiro idioma custa 3 arquivos
-novos. Candidato natural a virar rota dinâmica na Fase 2.
+passado ao helper de SEO. **Ainda é uma dívida** — o espanhol já custou os 3 arquivos que a nota
+anterior previa, e o quarto idioma custa outros 3. Candidato natural a virar rota dinâmica na
+Fase 2.
 
 ---
 
@@ -104,8 +110,9 @@ peças do portfólio — são a mesma peça em três momentos.
 ### Padrão de tipagem: `Record<Lang, Content>`
 
 Os três módulos usam interfaces explícitas e são exportados como
-`Record<Lang, Conteúdo>`. Isso **força os dois idiomas a ter exatamente a mesma forma** — se uma
-chave faltar em `pt-br`, o typecheck falha.
+`Record<Lang, Conteúdo>`. Isso **força todos os idiomas a ter exatamente a mesma forma** — se uma
+chave faltar em `pt-br` ou em `es`, o typecheck falha. Foi o que guiou a adição do espanhol: o
+`astro check` aponta cada chave que falta antes de a página existir.
 
 Antes, `home.ts` e `about.ts` usavam `as const` com o tipo derivado do inglês
 (`type HomeContent = (typeof homeContent)["en"]`). Como os literais de `pt-br` não eram
@@ -117,13 +124,14 @@ checagem exatamente onde ela era mais útil. **Não reintroduzir `as any` aqui.*
 ## 4. SEO
 
 - [BaseHead.astro](src/components/BaseHead.astro) centraliza: `canonical`, `hreflang` por
-  alternativa + `x-default` (aponta para `en`), Open Graph (com `og:locale` derivado de `lang`),
+  alternativa + `x-default` (aponta para `en`), Open Graph (com `og:locale` vindo do mapa
+  `OG_LOCALE`, e não de um ternário: com três idiomas o ternário servia `en_US` ao espanhol),
   Twitter Card `summary_large_image` e imagem OG de fallback
   (`danielle-spantosicus-banner.webp`).
 - [lib/seo.ts](src/lib/seo.ts) — `buildPageUrls(site, origin, lang, path)` monta canonical +
   alternates. Usa `new URL` em vez de template string: `Astro.site` já termina em `/`, e a
   concatenação manual (`${site}/en/about/`) produzia **barra dupla** no canonical, hreflang,
-  `og:url` e `twitter:url` das 6 páginas. Sempre montar URL absoluta por aqui.
+  `og:url` e `twitter:url` das páginas. Sempre montar URL absoluta por aqui.
 - **JSON-LD dentro dos componentes**, não no head:
   - `FAQPage` em [FAQ.astro](src/components/home/FAQ.astro)
   - `Product` + `Review[]` + `AggregateRating` em

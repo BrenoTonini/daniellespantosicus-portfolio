@@ -25,7 +25,14 @@ const {
 	noindex = false,
 } = Astro.props;
 
-const ogLocale = lang === "pt-br" ? "pt_BR" : "en_US";
+/** og:locale no formato do Open Graph (idioma_TERRITÓRIO). É um mapa, e não um
+  * ternário: com três idiomas, o ternário servia `en_US` para o espanhol. */
+const OG_LOCALE: Record<string, string> = {
+	en: "en_US",
+	"pt-br": "pt_BR",
+	es: "es_ES",
+};
+const ogLocale = OG_LOCALE[lang] ?? "en_US";
 const ogImage = new URL(image.src, Astro.url);
 const xDefaultHref =
 	alternates.find((a) => a.lang === "en")?.href ?? canonicalURL;

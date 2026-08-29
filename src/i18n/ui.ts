@@ -1,6 +1,7 @@
 export const languages = {
     en: 'English',
     "pt-br": 'Português',
+    es: 'Español',
 };
 
 export const defaultLang = 'en';
@@ -51,6 +52,29 @@ export const ui = {
         'testimonials.next': 'Próxima avaliação',
         'testimonials.goTo': 'Ir para avaliação {n}',
         'testimonials.rating': '5 de 5 estrelas',
+    },
+    es: {
+        'nav.home': 'Inicio',
+        'nav.about': 'Sobre mí',
+        'nav.portfolio': 'Portafolio',
+        'nav.ariaLabel': 'Navegación principal',
+        'nav.ariaLabel.mobile': 'Navegación móvil',
+
+        'header.home.ariaLabel': 'Danielle Spantosicus, página de inicio',
+
+        'socials.ariaLabel': 'Redes sociales',
+        'socials.vgen': 'Perfil de Danielle Spantosicus en VGen',
+        'socials.instagram': 'Sigue a Danielle Spantosicus en Instagram',
+        'socials.x': 'Sigue a Danielle Spantosicus en X / Twitter',
+
+        'langPicker.ariaLabel': 'Seleccionar idioma',
+
+        'footer.copyright': '© {year} Danielle Spantosicus. Todos los derechos reservados.',
+        'testimonials.carousel.ariaLabel': 'Carrusel de reseñas',
+        'testimonials.prev': 'Reseña anterior',
+        'testimonials.next': 'Siguiente reseña',
+        'testimonials.goTo': 'Ir a la reseña {n}',
+        'testimonials.rating': '5 de 5 estrellas',
     },
 } as const;
 
