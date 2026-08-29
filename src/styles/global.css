@@ -93,3 +93,17 @@ body {
 	clip-path: inset(50%);
 	white-space: nowrap;
 }
+
+/* ─── Barreira contra cópia casual ───────────────────────
+   Mesmo motivo de escopo das regras acima: consumida por FeaturedWorks.astro e
+   PortfolioGallery.astro. Acompanha `draggable="false"` no elemento (o atributo
+   cobre o arrasto; `-webkit-user-drag` cobre o Safari) e o listener de
+   `contextmenu` de ProtectedArt.astro. `-webkit-touch-callout` suprime o menu
+   de long-press do iOS, onde `contextmenu` nem sempre dispara — só o callout,
+   nenhum gesto de navegação.
+   Não é segurança: a versão .webp servida continua acessível por URL direta.
+   ───────────────────────────────────────────────────────── */
+.protected-art {
+	-webkit-user-drag: none;
+	-webkit-touch-callout: none;
+}

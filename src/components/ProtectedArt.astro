@@ -1,0 +1,23 @@
+---
+/**
+ * Barreira contra cópia casual das artes. Não renderiza nada: só instala o
+ * listener de `contextmenu` nas seções marcadas com `data-protected-art`.
+ *
+ * O bloqueio do arrasto vive no próprio elemento (`draggable="false"` + a
+ * classe `.protected-art`), então funciona sem JS; aqui fica apenas o que não
+ * tem equivalente declarativo.
+ */
+---
+
+<script>
+  // Um listener delegado por seção — nunca em `document`. Fora da arte (moldura,
+  // legenda, links, texto) o menu do navegador segue normal, e o custo não cresce
+  // com o número de itens da galeria.
+  document.querySelectorAll('[data-protected-art]').forEach((section) => {
+    section.addEventListener('contextmenu', (event) => {
+      if (event.target instanceof Element && event.target.closest('img, video')) {
+        event.preventDefault();
+      }
+    });
+  });
+</script>
