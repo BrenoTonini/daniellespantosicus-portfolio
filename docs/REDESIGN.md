@@ -234,7 +234,9 @@ Evitar transformar o portfólio numa grade uniforme de thumbnails.
 
 ---
 
-## 17. Header
+## 17. Header e rodapé
+
+### Header
 
 Reavaliar completamente a composição. Objetivo: **navegação discreta que não compete com a arte.**
 
@@ -242,6 +244,17 @@ Possibilidades: header minimalista, assinatura, menu tipográfico, indicador de 
 que muda durante scroll.
 
 No mobile, criar composição específica — não empilhar o desktop.
+
+### Rodapé
+
+O rodapé estava fora deste plano — as fases 2–7 redesenhavam tudo menos ele. A decisão, tomada
+antes da Fase 2, é que **ele não vira uma segunda navegação**: os links de página se concentram no
+header, e o rodapé é só o fecho — copyright e ícones sociais, na mesma moldura e na mesma altura
+de 4rem do header.
+
+O que isso fixa para o redesign: o rodapé **não ganha colunas, menu, CTA nem newsletter**. Se a
+Fase 2 mudar a moldura do header (largura, respiro lateral, altura), o rodapé acompanha — os dois
+são a mesma faixa de chrome, e divergir foi justamente a dívida que se corrigiu aqui.
 
 ---
 

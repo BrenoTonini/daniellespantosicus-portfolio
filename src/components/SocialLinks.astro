@@ -3,6 +3,7 @@ import VGenLogo from '../assets/icons/vgen-logo-outline.svg';
 import InstagramLogo from '../assets/icons/instagram-logo-outline.svg';
 import XLogo from '../assets/icons/x-logo-outline.svg';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { COMMISSION_URL, INSTAGRAM_URL, X_URL } from '../lib/links';
 
 interface Props {
     class?: string;
@@ -14,9 +15,9 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const socials = [
-    { href: 'https://vgen.co/Spantosicus_', icon: VGenLogo.src, key: 'socials.vgen' },
-    { href: 'https://www.instagram.com/spantosicus/', icon: InstagramLogo.src, key: 'socials.instagram' },
-    { href: 'https://x.com/Spantosicus_', icon: XLogo.src, key: 'socials.x' },
+    { href: COMMISSION_URL, icon: VGenLogo.src, key: 'socials.vgen' },
+    { href: INSTAGRAM_URL, icon: InstagramLogo.src, key: 'socials.instagram' },
+    { href: X_URL, icon: XLogo.src, key: 'socials.x' },
 ] as const;
 ---
 
@@ -62,7 +63,19 @@ const socials = [
     .social-link {
         opacity: 0.7;
         display: inline-flex;
+        position: relative;
         transition: opacity 150ms ease;
+    }
+
+    /* O ícone tem 24px — exatamente o mínimo do WCAG 2.5.8, sem folga. O alvo
+       cresce para 32px por pseudo-elemento, e não por padding, porque o header
+       em 390px não tem os ~40px extras que o padding custaria: a área de toque
+       aumenta sem que o layout mude. O recuo é metade do `gap`, então os alvos
+       vizinhos se encostam sem se sobrepor. */
+    .social-link::after {
+        content: '';
+        position: absolute;
+        inset: -0.25rem;
     }
 
     .social-link:hover,

@@ -228,7 +228,14 @@ arquivo `.js` servido ao cliente:
 
 `SocialLinks.astro` concentra os três links sociais e o padrão de `mask-image` que estava
 duplicado entre Header e Footer. Os ícones são SVGs aplicados como máscara, para herdarem cor
-via `background-color`.
+via `background-color`. As URLs vêm de [lib/links.ts](src/lib/links.ts) — o VGen é o único caminho
+de conversão do site e aparece em mais de um lugar.
+
+O ícone tem 24px, que é exatamente o mínimo do WCAG 2.5.8 e sem folga nenhuma. O alvo cresce para
+32px por **pseudo-elemento absoluto**, não por `padding`: o header em 390px não tem os ~40px extras
+que o padding custaria, e a QA visual falharia com overflow horizontal. O recuo (`inset: -0.25rem`)
+é metade do `gap`, então os alvos vizinhos se encostam sem se sobrepor — sobreposição vira toque
+errado.
 
 ### `Process.astro`: a prancha é constante, o conteúdo dela não
 
@@ -308,6 +315,20 @@ Regras que valem não redescobrir:
 **Header**: sticky, sem hamburger. No mobile a navegação vira uma segunda faixa
 (`sm:hidden border-t`), e a assinatura usa `height: 4.5rem; margin-top: 1rem` dentro de um
 header de `h-16` — transborda de propósito (daí o `overflow-visible`).
+
+**Footer**: o par do header, e escrito como ele — Tailwind com `bg-(--color-surface)`, `max-w-6xl`,
+`px-4 sm:px-6` e `min-h-16`, não `<style>` escopado com `var(--color-*)`. **Ele não é uma segunda
+navegação**: os links de página ficam só no header, e o rodapé carrega copyright e ícones sociais e
+nada mais (decisão registrada em [docs/REDESIGN.md](docs/REDESIGN.md) §17). Sem colunas, sem menu,
+sem CTA — o VGen já está ali como ícone social. Se a moldura do header mudar, a do rodapé muda
+junto.
+
+O ano do copyright é o caso raro em que o valor do build não serve: as páginas são
+`prerender = true`, então em 1º de janeiro o site passa a servir o ano anterior até o próximo
+deploy — e diverge da 404, que é SSR e acerta. Por isso a string traduzida é **quebrada no
+marcador** (`.split('{year}')`) em vez de interpolada de uma vez: o ano fica num
+`<span data-current-year>` que um script de três linhas corrige no cliente. Sem JS, o valor do
+build continua no lugar e a frase nunca fica vazia.
 
 `Nav.astro` renderiza o próprio `<nav>` e recebe `ariaLabel` como prop. Antes o Header envolvia
 `<Nav />` em outro `<nav>`, criando landmarks aninhados.

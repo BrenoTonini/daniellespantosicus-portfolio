@@ -4,25 +4,37 @@ import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const copyright = t('footer.copyright').replace('{year}', String(new Date().getFullYear()));
+
+/* A frase é quebrada no marcador em vez de interpolada de uma vez: o ano
+   precisa de um elemento próprio para o script abaixo poder corrigi-lo sem
+   tocar no resto do texto, que muda de idioma para idioma. */
+const [copyrightBefore = '', copyrightAfter = ''] = t('footer.copyright').split('{year}');
+const buildYear = String(new Date().getFullYear());
 ---
 
-<footer>
-    <p class="copyright">{copyright}</p>
-    <SocialLinks class="justify-center" />
+{/* Mesma moldura do header — `max-w-6xl`, `px-4 sm:px-6` e 4rem de altura — e
+    as mesmas utilities do Tailwind. Os dois são a mesma faixa de chrome; não há
+    motivo para um ser <style> escopado com `var(--color-*)` e o outro não. */}
+<footer class="bg-(--color-surface) border-t border-(--color-border)">
+    <div
+        class="max-w-6xl mx-auto px-4 sm:px-6 min-h-16 py-4 sm:py-0 flex flex-col items-center justify-center gap-3 sm:flex-row sm:justify-between sm:gap-4"
+    >
+        <p class="text-sm text-center text-(--color-muted) sm:text-left">
+            {copyrightBefore}<span data-current-year>{buildYear}</span>{copyrightAfter}
+        </p>
+
+        <SocialLinks />
+    </div>
 </footer>
 
-<style>
-    footer {
-        padding: 2em 1em 4em;
-        background-color: var(--color-surface);
-        border-top: 1px solid var(--color-border);
-        text-align: center;
-    }
+<script>
+    /* O ano sai do build, porque toda página é `prerender = true` — então em 1º
+       de janeiro o site serve o ano anterior até o próximo deploy, e ainda
+       diverge da 404, que é SSR e acerta. Isto corrige no cliente; sem JS o
+       valor do build continua servindo e a frase nunca fica vazia. */
+    const currentYear = String(new Date().getFullYear());
 
-    .copyright {
-        margin: 0 0 1em;
-        color: var(--color-muted);
-        font-size: 0.875rem;
-    }
-</style>
+    document.querySelectorAll('[data-current-year]').forEach((slot) => {
+        if (slot.textContent !== currentYear) slot.textContent = currentYear;
+    });
+</script>
